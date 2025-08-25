@@ -11,5 +11,5 @@ from .types import Result, Ok, Err, Some
 
 
 
-class SpinAll(Protocol):
+class SpinSdkWit(Protocol):
     pass

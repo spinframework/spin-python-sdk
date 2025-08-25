@@ -24,7 +24,7 @@ enter a virtual environment and then install the desired packages
 ```shell
 python -m venv .venv
 source .venv/bin/activate
-pip install componentize-py==0.16.0 spin-sdk==3.3.1 mypy==1.8.0
+pip install componentize-py==0.17.2 spin-sdk==3.4.1 mypy==1.8.0
 ```
 
 ### Hello, World

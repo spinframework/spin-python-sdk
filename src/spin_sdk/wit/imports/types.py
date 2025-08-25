@@ -317,7 +317,7 @@ class ErrorCode_InternalError:
 ErrorCode = Union[ErrorCode_DnsTimeout, ErrorCode_DnsError, ErrorCode_DestinationNotFound, ErrorCode_DestinationUnavailable, ErrorCode_DestinationIpProhibited, ErrorCode_DestinationIpUnroutable, ErrorCode_ConnectionRefused, ErrorCode_ConnectionTerminated, ErrorCode_ConnectionTimeout, ErrorCode_ConnectionReadTimeout, ErrorCode_ConnectionWriteTimeout, ErrorCode_ConnectionLimitReached, ErrorCode_TlsProtocolError, ErrorCode_TlsCertificateError, ErrorCode_TlsAlertReceived, ErrorCode_HttpRequestDenied, ErrorCode_HttpRequestLengthRequired, ErrorCode_HttpRequestBodySize, ErrorCode_HttpRequestMethodInvalid, ErrorCode_HttpRequestUriInvalid, ErrorCode_HttpRequestUriTooLong, ErrorCode_HttpRequestHeaderSectionSize, ErrorCode_HttpRequestHeaderSize, ErrorCode_HttpRequestTrailerSectionSize, ErrorCode_HttpRequestTrailerSize, ErrorCode_HttpResponseIncomplete, ErrorCode_HttpResponseHeaderSectionSize, ErrorCode_HttpResponseHeaderSize, ErrorCode_HttpResponseBodySize, ErrorCode_HttpResponseTrailerSectionSize, ErrorCode_HttpResponseTrailerSize, ErrorCode_HttpResponseTransferCoding, ErrorCode_HttpResponseContentCoding, ErrorCode_HttpResponseTimeout, ErrorCode_HttpUpgradeFailed, ErrorCode_HttpProtocolError, ErrorCode_LoopDetected, ErrorCode_ConfigurationError, ErrorCode_InternalError]
 """
 These cases are inspired by the IANA HTTP Proxy Error Types:
-https://www.iana.org/assignments/http-proxy-status/http-proxy-status.xhtml#table-http-proxy-error-types
+  https://www.iana.org/assignments/http-proxy-status/http-proxy-status.xhtml#table-http-proxy-error-types
 """
 
 
