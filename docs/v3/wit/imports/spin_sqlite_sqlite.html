@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.6">
-<title>spin_sdk.wit.imports.sqlite API documentation</title>
+<title>spin_sdk.wit.imports.spin_sqlite_sqlite API documentation</title>
 <meta name="description" content="">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
@@ -33,7 +33,7 @@ el.replaceWith(d);
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>spin_sdk.wit.imports.sqlite</code></h1>
+<h1 class="title">Module <code>spin_sdk.wit.imports.spin_sqlite_sqlite</code></h1>
 </header>
 <section id="section-intro">
 </section>
@@ -42,11 +42,11 @@ el.replaceWith(d);
 <section>
 <h2 class="section-title" id="header-variables">Global variables</h2>
 <dl>
-<dt id="spin_sdk.wit.imports.sqlite.Error"><code class="name">var <span class="ident">Error</span></code></dt>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Error"><code class="name">var <span class="ident">Error</span></code></dt>
 <dd>
 <div class="desc"><p>The set of errors which may be raised by functions in this interface</p></div>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.Value"><code class="name">var <span class="ident">Value</span></code></dt>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Value"><code class="name">var <span class="ident">Value</span></code></dt>
 <dd>
 <div class="desc"><p>A single column's result from a database query</p></div>
 </dd>
@@ -57,7 +57,7 @@ el.replaceWith(d);
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="spin_sdk.wit.imports.sqlite.Connection"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Connection"><code class="flex name class">
 <span>class <span class="ident">Connection</span></span>
 </code></dt>
 <dd>
@@ -79,14 +79,26 @@ el.replaceWith(d);
         
         `error::no-such-database` will be raised if the `name` is not recognized.
         
-        Raises: `spin_sdk.wit.types.Err(spin_sdk.wit.imports.sqlite.Error)`
+        Raises: `spin_sdk.wit.types.Err(spin_sdk.wit.imports.spin_sqlite_sqlite.Error)`
         &#34;&#34;&#34;
         raise NotImplementedError
     def execute(self, statement: str, parameters: List[Value]) -&gt; QueryResult:
         &#34;&#34;&#34;
         Execute a statement returning back data if there is any
         
-        Raises: `spin_sdk.wit.types.Err(spin_sdk.wit.imports.sqlite.Error)`
+        Raises: `spin_sdk.wit.types.Err(spin_sdk.wit.imports.spin_sqlite_sqlite.Error)`
+        &#34;&#34;&#34;
+        raise NotImplementedError
+    def last_insert_rowid(self) -&gt; int:
+        &#34;&#34;&#34;
+        The SQLite rowid of the most recent successful INSERT on the connection, or 0 if
+        there has not yet been an INSERT on the connection.
+        &#34;&#34;&#34;
+        raise NotImplementedError
+    def changes(self) -&gt; int:
+        &#34;&#34;&#34;
+        The number of rows modified, inserted or deleted by the most recently completed
+        INSERT, UPDATE or DELETE statement on the connection.
         &#34;&#34;&#34;
         raise NotImplementedError
     def __enter__(self) -&gt; Self:
@@ -102,20 +114,38 @@ el.replaceWith(d);
 <div class="desc"><p>A handle to an open sqlite instance</p></div>
 <h3>Static methods</h3>
 <dl>
-<dt id="spin_sdk.wit.imports.sqlite.Connection.open"><code class="name flex">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.open"><code class="name flex">
 <span>def <span class="ident">open</span></span>(<span>database: str) ‑> Self</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Open a connection to a named database instance.</p>
 <p>If <code>database</code> is "default", the default instance is opened.</p>
 <p><code>error::no-such-database</code> will be raised if the <code>name</code> is not recognized.</p>
-<p>Raises: <code><a title="spin_sdk.wit.types.Err" href="../types.html#spin_sdk.wit.types.Err">Err</a>(<a title="spin_sdk.wit.imports.sqlite.Error" href="#spin_sdk.wit.imports.sqlite.Error">Error</a>)</code></p></div>
+<p>Raises: <code><a title="spin_sdk.wit.types.Err" href="../types.html#spin_sdk.wit.types.Err">Err</a>(<a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Error" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Error">Error</a>)</code></p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="spin_sdk.wit.imports.sqlite.Connection.execute"><code class="name flex">
-<span>def <span class="ident">execute</span></span>(<span>self,<br>statement: str,<br>parameters: List[<a title="spin_sdk.wit.imports.sqlite.Value_Integer" href="#spin_sdk.wit.imports.sqlite.Value_Integer">Value_Integer</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Real" href="#spin_sdk.wit.imports.sqlite.Value_Real">Value_Real</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Text" href="#spin_sdk.wit.imports.sqlite.Value_Text">Value_Text</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Blob" href="#spin_sdk.wit.imports.sqlite.Value_Blob">Value_Blob</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Null" href="#spin_sdk.wit.imports.sqlite.Value_Null">Value_Null</a>]) ‑> <a title="spin_sdk.wit.imports.sqlite.QueryResult" href="#spin_sdk.wit.imports.sqlite.QueryResult">QueryResult</a></span>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.changes"><code class="name flex">
+<span>def <span class="ident">changes</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def changes(self) -&gt; int:
+    &#34;&#34;&#34;
+    The number of rows modified, inserted or deleted by the most recently completed
+    INSERT, UPDATE or DELETE statement on the connection.
+    &#34;&#34;&#34;
+    raise NotImplementedError</code></pre>
+</details>
+<div class="desc"><p>The number of rows modified, inserted or deleted by the most recently completed
+INSERT, UPDATE or DELETE statement on the connection.</p></div>
+</dd>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.execute"><code class="name flex">
+<span>def <span class="ident">execute</span></span>(<span>self,<br>statement: str,<br>parameters: List[<a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer">Value_Integer</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real">Value_Real</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text">Value_Text</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob">Value_Blob</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Null" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Null">Value_Null</a>]) ‑> <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.QueryResult" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.QueryResult">QueryResult</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -126,16 +156,34 @@ el.replaceWith(d);
     &#34;&#34;&#34;
     Execute a statement returning back data if there is any
     
-    Raises: `spin_sdk.wit.types.Err(spin_sdk.wit.imports.sqlite.Error)`
+    Raises: `spin_sdk.wit.types.Err(spin_sdk.wit.imports.spin_sqlite_sqlite.Error)`
     &#34;&#34;&#34;
     raise NotImplementedError</code></pre>
 </details>
 <div class="desc"><p>Execute a statement returning back data if there is any</p>
-<p>Raises: <code><a title="spin_sdk.wit.types.Err" href="../types.html#spin_sdk.wit.types.Err">Err</a>(<a title="spin_sdk.wit.imports.sqlite.Error" href="#spin_sdk.wit.imports.sqlite.Error">Error</a>)</code></p></div>
+<p>Raises: <code><a title="spin_sdk.wit.types.Err" href="../types.html#spin_sdk.wit.types.Err">Err</a>(<a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Error" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Error">Error</a>)</code></p></div>
+</dd>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.last_insert_rowid"><code class="name flex">
+<span>def <span class="ident">last_insert_rowid</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def last_insert_rowid(self) -&gt; int:
+    &#34;&#34;&#34;
+    The SQLite rowid of the most recent successful INSERT on the connection, or 0 if
+    there has not yet been an INSERT on the connection.
+    &#34;&#34;&#34;
+    raise NotImplementedError</code></pre>
+</details>
+<div class="desc"><p>The SQLite rowid of the most recent successful INSERT on the connection, or 0 if
+there has not yet been an INSERT on the connection.</p></div>
 </dd>
 </dl>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.Error_AccessDenied"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_AccessDenied"><code class="flex name class">
 <span>class <span class="ident">Error_AccessDenied</span></span>
 </code></dt>
 <dd>
@@ -149,7 +197,7 @@ class Error_AccessDenied:
 </details>
 <div class="desc"><p>Error_AccessDenied()</p></div>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.Error_DatabaseFull"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_DatabaseFull"><code class="flex name class">
 <span>class <span class="ident">Error_DatabaseFull</span></span>
 </code></dt>
 <dd>
@@ -163,7 +211,7 @@ class Error_DatabaseFull:
 </details>
 <div class="desc"><p>Error_DatabaseFull()</p></div>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.Error_InvalidConnection"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_InvalidConnection"><code class="flex name class">
 <span>class <span class="ident">Error_InvalidConnection</span></span>
 </code></dt>
 <dd>
@@ -177,7 +225,7 @@ class Error_InvalidConnection:
 </details>
 <div class="desc"><p>Error_InvalidConnection()</p></div>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.Error_Io"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_Io"><code class="flex name class">
 <span>class <span class="ident">Error_Io</span></span>
 <span>(</span><span>value: str)</span>
 </code></dt>
@@ -193,13 +241,13 @@ class Error_Io:
 <div class="desc"><p>Error_Io(value: str)</p></div>
 <h3>Instance variables</h3>
 <dl>
-<dt id="spin_sdk.wit.imports.sqlite.Error_Io.value"><code class="name">var <span class="ident">value</span> : str</code></dt>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_Io.value"><code class="name">var <span class="ident">value</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.Error_NoSuchDatabase"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_NoSuchDatabase"><code class="flex name class">
 <span>class <span class="ident">Error_NoSuchDatabase</span></span>
 </code></dt>
 <dd>
@@ -213,9 +261,9 @@ class Error_NoSuchDatabase:
 </details>
 <div class="desc"><p>Error_NoSuchDatabase()</p></div>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.QueryResult"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.QueryResult"><code class="flex name class">
 <span>class <span class="ident">QueryResult</span></span>
-<span>(</span><span>columns: List[str],<br>rows: List[<a title="spin_sdk.wit.imports.sqlite.RowResult" href="#spin_sdk.wit.imports.sqlite.RowResult">RowResult</a>])</span>
+<span>(</span><span>columns: List[str],<br>rows: List[<a title="spin_sdk.wit.imports.spin_sqlite_sqlite.RowResult" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.RowResult">RowResult</a>])</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -233,19 +281,19 @@ class QueryResult:
 <div class="desc"><p>A result of a query</p></div>
 <h3>Instance variables</h3>
 <dl>
-<dt id="spin_sdk.wit.imports.sqlite.QueryResult.columns"><code class="name">var <span class="ident">columns</span> : List[str]</code></dt>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.QueryResult.columns"><code class="name">var <span class="ident">columns</span> : List[str]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.QueryResult.rows"><code class="name">var <span class="ident">rows</span> : List[<a title="spin_sdk.wit.imports.sqlite.RowResult" href="#spin_sdk.wit.imports.sqlite.RowResult">RowResult</a>]</code></dt>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.QueryResult.rows"><code class="name">var <span class="ident">rows</span> : List[<a title="spin_sdk.wit.imports.spin_sqlite_sqlite.RowResult" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.RowResult">RowResult</a>]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.RowResult"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.RowResult"><code class="flex name class">
 <span>class <span class="ident">RowResult</span></span>
-<span>(</span><span>values: List[<a title="spin_sdk.wit.imports.sqlite.Value_Integer" href="#spin_sdk.wit.imports.sqlite.Value_Integer">Value_Integer</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Real" href="#spin_sdk.wit.imports.sqlite.Value_Real">Value_Real</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Text" href="#spin_sdk.wit.imports.sqlite.Value_Text">Value_Text</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Blob" href="#spin_sdk.wit.imports.sqlite.Value_Blob">Value_Blob</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Null" href="#spin_sdk.wit.imports.sqlite.Value_Null">Value_Null</a>])</span>
+<span>(</span><span>values: List[<a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer">Value_Integer</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real">Value_Real</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text">Value_Text</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob">Value_Blob</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Null" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Null">Value_Null</a>])</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -262,13 +310,13 @@ class RowResult:
 <div class="desc"><p>A set of values for each of the columns in a query-result</p></div>
 <h3>Instance variables</h3>
 <dl>
-<dt id="spin_sdk.wit.imports.sqlite.RowResult.values"><code class="name">var <span class="ident">values</span> : List[<a title="spin_sdk.wit.imports.sqlite.Value_Integer" href="#spin_sdk.wit.imports.sqlite.Value_Integer">Value_Integer</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Real" href="#spin_sdk.wit.imports.sqlite.Value_Real">Value_Real</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Text" href="#spin_sdk.wit.imports.sqlite.Value_Text">Value_Text</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Blob" href="#spin_sdk.wit.imports.sqlite.Value_Blob">Value_Blob</a> | <a title="spin_sdk.wit.imports.sqlite.Value_Null" href="#spin_sdk.wit.imports.sqlite.Value_Null">Value_Null</a>]</code></dt>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.RowResult.values"><code class="name">var <span class="ident">values</span> : List[<a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer">Value_Integer</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real">Value_Real</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text">Value_Text</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob">Value_Blob</a> | <a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Null" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Null">Value_Null</a>]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.Value_Blob"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob"><code class="flex name class">
 <span>class <span class="ident">Value_Blob</span></span>
 <span>(</span><span>value: bytes)</span>
 </code></dt>
@@ -284,13 +332,13 @@ class Value_Blob:
 <div class="desc"><p>Value_Blob(value: bytes)</p></div>
 <h3>Instance variables</h3>
 <dl>
-<dt id="spin_sdk.wit.imports.sqlite.Value_Blob.value"><code class="name">var <span class="ident">value</span> : bytes</code></dt>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob.value"><code class="name">var <span class="ident">value</span> : bytes</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.Value_Integer"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer"><code class="flex name class">
 <span>class <span class="ident">Value_Integer</span></span>
 <span>(</span><span>value: int)</span>
 </code></dt>
@@ -306,13 +354,13 @@ class Value_Integer:
 <div class="desc"><p>Value_Integer(value: int)</p></div>
 <h3>Instance variables</h3>
 <dl>
-<dt id="spin_sdk.wit.imports.sqlite.Value_Integer.value"><code class="name">var <span class="ident">value</span> : int</code></dt>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer.value"><code class="name">var <span class="ident">value</span> : int</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.Value_Null"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Null"><code class="flex name class">
 <span>class <span class="ident">Value_Null</span></span>
 </code></dt>
 <dd>
@@ -326,7 +374,7 @@ class Value_Null:
 </details>
 <div class="desc"><p>Value_Null()</p></div>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.Value_Real"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real"><code class="flex name class">
 <span>class <span class="ident">Value_Real</span></span>
 <span>(</span><span>value: float)</span>
 </code></dt>
@@ -342,13 +390,13 @@ class Value_Real:
 <div class="desc"><p>Value_Real(value: float)</p></div>
 <h3>Instance variables</h3>
 <dl>
-<dt id="spin_sdk.wit.imports.sqlite.Value_Real.value"><code class="name">var <span class="ident">value</span> : float</code></dt>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real.value"><code class="name">var <span class="ident">value</span> : float</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
 </dd>
-<dt id="spin_sdk.wit.imports.sqlite.Value_Text"><code class="flex name class">
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text"><code class="flex name class">
 <span>class <span class="ident">Value_Text</span></span>
 <span>(</span><span>value: str)</span>
 </code></dt>
@@ -364,7 +412,7 @@ class Value_Text:
 <div class="desc"><p>Value_Text(value: str)</p></div>
 <h3>Instance variables</h3>
 <dl>
-<dt id="spin_sdk.wit.imports.sqlite.Value_Text.value"><code class="name">var <span class="ident">value</span> : str</code></dt>
+<dt id="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text.value"><code class="name">var <span class="ident">value</span> : str</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -385,75 +433,77 @@ class Value_Text:
 </li>
 <li><h3><a href="#header-variables">Global variables</a></h3>
 <ul class="">
-<li><code><a title="spin_sdk.wit.imports.sqlite.Error" href="#spin_sdk.wit.imports.sqlite.Error">Error</a></code></li>
-<li><code><a title="spin_sdk.wit.imports.sqlite.Value" href="#spin_sdk.wit.imports.sqlite.Value">Value</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Error" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Error">Error</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value">Value</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.Connection" href="#spin_sdk.wit.imports.sqlite.Connection">Connection</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Connection" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Connection">Connection</a></code></h4>
 <ul class="">
-<li><code><a title="spin_sdk.wit.imports.sqlite.Connection.execute" href="#spin_sdk.wit.imports.sqlite.Connection.execute">execute</a></code></li>
-<li><code><a title="spin_sdk.wit.imports.sqlite.Connection.open" href="#spin_sdk.wit.imports.sqlite.Connection.open">open</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.changes" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.changes">changes</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.execute" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.execute">execute</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.last_insert_rowid" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.last_insert_rowid">last_insert_rowid</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.open" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Connection.open">open</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.Error_AccessDenied" href="#spin_sdk.wit.imports.sqlite.Error_AccessDenied">Error_AccessDenied</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_AccessDenied" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Error_AccessDenied">Error_AccessDenied</a></code></h4>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.Error_DatabaseFull" href="#spin_sdk.wit.imports.sqlite.Error_DatabaseFull">Error_DatabaseFull</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_DatabaseFull" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Error_DatabaseFull">Error_DatabaseFull</a></code></h4>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.Error_InvalidConnection" href="#spin_sdk.wit.imports.sqlite.Error_InvalidConnection">Error_InvalidConnection</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_InvalidConnection" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Error_InvalidConnection">Error_InvalidConnection</a></code></h4>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.Error_Io" href="#spin_sdk.wit.imports.sqlite.Error_Io">Error_Io</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_Io" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Error_Io">Error_Io</a></code></h4>
 <ul class="">
-<li><code><a title="spin_sdk.wit.imports.sqlite.Error_Io.value" href="#spin_sdk.wit.imports.sqlite.Error_Io.value">value</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_Io.value" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Error_Io.value">value</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.Error_NoSuchDatabase" href="#spin_sdk.wit.imports.sqlite.Error_NoSuchDatabase">Error_NoSuchDatabase</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Error_NoSuchDatabase" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Error_NoSuchDatabase">Error_NoSuchDatabase</a></code></h4>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.QueryResult" href="#spin_sdk.wit.imports.sqlite.QueryResult">QueryResult</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.QueryResult" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.QueryResult">QueryResult</a></code></h4>
 <ul class="">
-<li><code><a title="spin_sdk.wit.imports.sqlite.QueryResult.columns" href="#spin_sdk.wit.imports.sqlite.QueryResult.columns">columns</a></code></li>
-<li><code><a title="spin_sdk.wit.imports.sqlite.QueryResult.rows" href="#spin_sdk.wit.imports.sqlite.QueryResult.rows">rows</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.QueryResult.columns" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.QueryResult.columns">columns</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.QueryResult.rows" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.QueryResult.rows">rows</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.RowResult" href="#spin_sdk.wit.imports.sqlite.RowResult">RowResult</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.RowResult" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.RowResult">RowResult</a></code></h4>
 <ul class="">
-<li><code><a title="spin_sdk.wit.imports.sqlite.RowResult.values" href="#spin_sdk.wit.imports.sqlite.RowResult.values">values</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.RowResult.values" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.RowResult.values">values</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.Value_Blob" href="#spin_sdk.wit.imports.sqlite.Value_Blob">Value_Blob</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob">Value_Blob</a></code></h4>
 <ul class="">
-<li><code><a title="spin_sdk.wit.imports.sqlite.Value_Blob.value" href="#spin_sdk.wit.imports.sqlite.Value_Blob.value">value</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob.value" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Blob.value">value</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.Value_Integer" href="#spin_sdk.wit.imports.sqlite.Value_Integer">Value_Integer</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer">Value_Integer</a></code></h4>
 <ul class="">
-<li><code><a title="spin_sdk.wit.imports.sqlite.Value_Integer.value" href="#spin_sdk.wit.imports.sqlite.Value_Integer.value">value</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer.value" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Integer.value">value</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.Value_Null" href="#spin_sdk.wit.imports.sqlite.Value_Null">Value_Null</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Null" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Null">Value_Null</a></code></h4>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.Value_Real" href="#spin_sdk.wit.imports.sqlite.Value_Real">Value_Real</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real">Value_Real</a></code></h4>
 <ul class="">
-<li><code><a title="spin_sdk.wit.imports.sqlite.Value_Real.value" href="#spin_sdk.wit.imports.sqlite.Value_Real.value">value</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real.value" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Real.value">value</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.imports.sqlite.Value_Text" href="#spin_sdk.wit.imports.sqlite.Value_Text">Value_Text</a></code></h4>
+<h4><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text">Value_Text</a></code></h4>
 <ul class="">
-<li><code><a title="spin_sdk.wit.imports.sqlite.Value_Text.value" href="#spin_sdk.wit.imports.sqlite.Value_Text.value">value</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text.value" href="#spin_sdk.wit.imports.spin_sqlite_sqlite.Value_Text.value">value</a></code></li>
 </ul>
 </li>
 </ul>
