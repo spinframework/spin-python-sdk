@@ -1,4 +1,4 @@
-# Example: Spin Postgres
+# Example: Spin Outbound MQTT
 
 This is an example showcasing the use of Spin outbound MQTT bindings within a guest component. 
 
