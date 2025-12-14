@@ -1,6 +1,6 @@
-# Example: External Library
+# Example: Redis Trigger
 
-This is an example showcasing the use of an external library [`http-router`](https://pypi.org/project/http-router/) within a guest component. 
+This is an example showcasing the use of a Redis trigger within a guest component. 
 
 ## Preparing the Environment
 
