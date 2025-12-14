@@ -19,6 +19,22 @@ pip3 install -r requirements.txt
 
 For this example, a PostgreSQL database named `spin_dev` must be accessible at `127.0.0.1` with a user `postgres` should exist. 
 
+### Setting Up the Test Table
+
+Create a test table in your PostgreSQL database:
+
+```sql
+CREATE TABLE test (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    value INTEGER
+);
+
+INSERT INTO test (name, value) VALUES 
+    ('foo', 42),
+    ('bar', 100);
+```
+
 ## Building and Running the Examples
 
 ```bash
@@ -29,5 +45,8 @@ spin build --up
 
 ```bash
 $ curl localhost:3000
-Hello from Python!
+id | name | value
+-----------------
+1 | foo | 42
+2 | bar | 100
 ```
