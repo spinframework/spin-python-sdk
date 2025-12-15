@@ -17,7 +17,7 @@ Install the required packages specified in the `requirements.txt` using the comm
 pip3 install -r requirements.txt
 ```
 
-The above install all the required packages which includes the `http-router` pacakge.
+The above install all the required packages which includes the `http-router` package.
 
 ## Building and Running the Examples
 
