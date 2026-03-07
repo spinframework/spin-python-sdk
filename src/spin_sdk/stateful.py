@@ -33,12 +33,15 @@ The ``@stateful_component`` decorator wires the class into the Spin runtime:
 - ``suspend(self)`` is called before the runtime suspends the instance.
   Use it to flush any pending in-memory state. This method is optional.
 - ``handle_request(self, request) -> Response`` handles incoming HTTP
-  requests routed to this instance.
+  requests routed to this instance.  This method may be ``async def``
+  to allow concurrent requests to the same instance to interleave at
+  ``await`` points.
 
 State is held as regular instance attributes on ``self`` — no locks,
 guards, or special accessors are needed.
 """
 
+import inspect
 import sys
 import traceback
 from dataclasses import dataclass
@@ -219,9 +222,13 @@ def _make_handler_class():
             body = b""
 
             try:
-                simple_response = _component_instance.handle_request(
+                result = _component_instance.handle_request(
                     Request(method_str, uri, headers, body)
                 )
+                if inspect.iscoroutine(result):
+                    simple_response = await result
+                else:
+                    simple_response = result
             except Exception:
                 traceback.print_exc()
                 simple_response = Response(

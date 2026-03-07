@@ -5,3 +5,19 @@ interface types {
   /// A duration of time, in nanoseconds.
   type duration = u64;
 }
+
+interface monotonic-clock {
+  use types.{duration};
+
+  type mark = u64;
+
+  now: func() -> mark;
+
+  get-resolution: func() -> duration;
+
+  /// Wait until the specified mark has occurred.
+  wait-until: async func(when: mark);
+
+  /// Wait for the specified duration to elapse.
+  wait-for: async func(how-long: duration);
+}
