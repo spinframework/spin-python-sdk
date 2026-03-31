@@ -19,7 +19,7 @@ def format_rowset(rowset) -> str:
     return "\n".join(lines)
 
 
-class IncomingHandler(http.IncomingHandler):
+class WasiHttpIncomingHandler020(http.IncomingHandler):
     def handle_request(self, request: Request) -> Response:
         with postgres.open("user=postgres dbname=spin_dev host=127.0.0.1") as db:
             rowset = db.query("SELECT * FROM test", [])

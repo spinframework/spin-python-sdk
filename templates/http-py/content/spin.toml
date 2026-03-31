@@ -13,5 +13,5 @@ component = "{{project-name | kebab_case}}"
 [component.{{project-name | kebab_case}}]
 source = "app.wasm"
 [component.{{project-name | kebab_case}}.build]
-command = "componentize-py -w spin-http componentize app -o app.wasm"
+command = "componentize-py -w fermyon:spin/http-trigger@3.0.0 componentize app -o app.wasm"
 watch = ["*.py", "requirements.txt"]

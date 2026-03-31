@@ -2,20 +2,24 @@
 
 This also includes helper classes and functions for working with `wasi:http`.
 
-As of WASI Preview 2, there is not yet a standard for first-class, composable
-asynchronous functions and streams.  We expect that little or none of this
-boilerplate will be needed once those features arrive in Preview 3.
+This is only useful for `wasi:http@0.2.x`; `wasi:http@0.3.x` uses a different
+mechanism to model concurrency.
 """
 
 import asyncio
 import socket
 import subprocess
 
-from spin_sdk.wit.types import Ok, Err
-from spin_sdk.wit.imports import types, streams, poll, outgoing_handler
-from spin_sdk.wit.imports.types import IncomingBody, OutgoingBody, OutgoingRequest, IncomingResponse
-from spin_sdk.wit.imports.streams import StreamError_Closed, InputStream
-from spin_sdk.wit.imports.poll import Pollable
+from componentize_py_types import Ok, Err
+from spin_sdk.wit.imports import (
+    wasi_http_types_0_2_0 as types,
+    wasi_io_streams_0_2_0 as streams,
+    wasi_io_poll_0_2_0 as poll,
+    wasi_http_outgoing_handler_0_2_0 as outgoing_handler,
+)
+from spin_sdk.wit.imports.wasi_http_types_0_2_0 import IncomingBody, OutgoingBody, OutgoingRequest, IncomingResponse
+from spin_sdk.wit.imports.wasi_io_streams_0_2_0 import StreamError_Closed, InputStream
+from spin_sdk.wit.imports.wasi_io_poll_0_2_0 import Pollable
 from typing import Optional, cast
 
 # Maximum number of bytes to read at a time

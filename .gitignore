@@ -1,5 +1,7 @@
 bindings
 *.wasm
+spin-dependencies.wit
+examples/matrix-math/numpy*
 __pycache__
 .spin
 src/spin_sdk.egg-info
