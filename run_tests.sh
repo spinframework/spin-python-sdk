@@ -38,4 +38,30 @@ then
 fi
 popd
 
+for example in examples/streaming examples/streaming-p3
+do
+  pushd $example
+  spin up &
+  spin_pid=$!
+
+  for x in $(seq 1 10)
+  do
+    message="$(curl -s -d 'Hello from Python!' localhost:3000/echo)"
+    if [ "$message" = "Hello from Python!" ]
+    then
+      result=success
+      break
+    fi
+    sleep 1
+  done
+
+  kill "$spin_pid"
+
+  if [ "$result" != "success" ]
+  then
+    exit 1
+  fi
+  popd
+done
+
 # TODO: run more examples

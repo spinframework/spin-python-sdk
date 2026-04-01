@@ -1,0 +1,17 @@
+spin_manifest_version = 2
+
+[application]
+name = "test"
+version = "0.1.0"
+authors = ["Fermyon Engineering <engineering@fermyon.com>"]
+description = ""
+
+[[trigger.http]]
+route = "/..."
+component = "test"
+
+[component.test]
+source = "app.wasm"
+allowed_outbound_hosts = ["http://*:*", "https://*:*"]
+[component.test.build]
+command = "componentize-py -w wasi:http/service@0.3.0-rc-2026-03-15 componentize app -o app.wasm"
