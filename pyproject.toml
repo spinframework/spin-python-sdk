@@ -8,13 +8,13 @@ version = "3.4.1"
 description = "Experimental SDK for Spin and Componentize-Py"
 readme = "README.md"
 license = { file = "LICENSE" }
-authors = [ { name = "Fermyon Engineering", email = "engineering@fermyon.com" } ]
-maintainers = [ { name = "Fermyon Engineering", email = "engineering@fermyon.com" } ]
+authors = [ { name = "Spin Framework Contributors" } ]
+maintainers = [ { name = "Spin Framework Contributors" } ]
 keywords = [ "webassembly", "wasm", "component", "spin" ]
 
 [project.urls]
-repository = "https://github.com/fermyon/spin-python-sdk"
-documentation = "https://fermyon.github.io/spin-python-sdk"
+repository = "https://github.com/spinframework/spin-python-sdk"
+documentation = "https://spinframework.github.io/spin-python-sdk"
 
 [tool.setuptools.packages.find]
 where = ["src"]
