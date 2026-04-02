@@ -19,9 +19,9 @@ def format_rowset(rowset) -> str:
     return "\n".join(lines)
 
 
-class WasiHttpIncomingHandler020(http.IncomingHandler):
-    def handle_request(self, request: Request) -> Response:
-        with postgres.open("user=postgres dbname=spin_dev host=127.0.0.1") as db:
+class WasiHttpHandler030Rc20260315(http.Handler):
+    async def handle_request(self, request: Request) -> Response:
+        with await postgres.open("user=postgres dbname=spin_dev host=localhost sslmode=disable password=password") as db:
             rowset = db.query("SELECT * FROM test", [])
             result = format_rowset(rowset)
 

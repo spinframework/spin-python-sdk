@@ -15,30 +15,35 @@ do
   (cd $example && spin build) || exit 1
 done
 
-pushd examples/hello
-spin up &
-spin_pid=$!
 
-for x in $(seq 1 10)
+# run trivial examples
+for example in examples/hello examples/external-lib-example examples/spin-kv examples/spin-variables
 do
-  message="$(curl -s localhost:3000)"
-  if [ "$message" = "Hello from Python!" ]
+  pushd $example
+  spin up &
+  spin_pid=$!
+
+  for x in $(seq 1 10)
+  do
+    message="$(curl -s localhost:3000)"
+    if [ "$message" = "Hello from Python!" ]
+    then
+      result=success
+      break
+    fi
+    sleep 1
+  done
+
+  kill "$spin_pid"
+
+  if [ "$result" != "success" ]
   then
-    result=success
-    break
+    exit 1
   fi
-  sleep 1
+  popd
 done
 
-kill "$spin_pid"
-
-if [ "$result" != "success" ]
-then
-  exit 1
-fi
-popd
-
-for example in examples/streaming examples/streaming-p3
+for example in examples/streaming
 do
   pushd $example
   spin up &

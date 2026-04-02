@@ -46,14 +46,14 @@ el.replaceWith(d);
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="spin_sdk.postgres.open"><code class="name flex">
-<span>def <span class="ident">open</span></span>(<span>connection_string: str) ‑> <a title="spin_sdk.wit.imports.fermyon_spin_postgres_2_0_0.Connection" href="wit/imports/fermyon_spin_postgres_2_0_0.html#spin_sdk.wit.imports.fermyon_spin_postgres_2_0_0.Connection">Connection</a></span>
+<span>async def <span class="ident">open</span></span>(<span>connection_string: str) ‑> <a title="spin_sdk.wit.imports.spin_postgres_postgres_4_2_0.Connection" href="wit/imports/spin_postgres_postgres_4_2_0.html#spin_sdk.wit.imports.spin_postgres_postgres_4_2_0.Connection">Connection</a></span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def open(connection_string: str) -&gt; Connection:
+<pre><code class="python">async def open(connection_string: str) -&gt; Connection:
     &#34;&#34;&#34;
     Open a connection with a Postgres database.
     
@@ -63,7 +63,7 @@ el.replaceWith(d);
     
     A `componentize_py_types.Err(Error_Other(str))` when some other error occurs.
     &#34;&#34;&#34;
-    return Connection.open(connection_string)</code></pre>
+    return await Connection.open_async(connection_string)</code></pre>
 </details>
 <div class="desc"><p>Open a connection with a Postgres database.</p>
 <p>The connection_string is the Postgres URL connection string.</p>

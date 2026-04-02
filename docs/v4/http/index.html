@@ -39,58 +39,37 @@ el.replaceWith(d);
 <p>Module with helpers for wasi http</p>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
-<dl>
-<dt><code class="name"><a title="spin_sdk.http.poll_loop" href="poll_loop.html">spin_sdk.http.poll_loop</a></code></dt>
-<dd>
-<div class="desc"><p>Defines a custom <code>asyncio</code> event loop backed by <code>wasi:io/poll#poll</code> …</p></div>
-</dd>
-</dl>
 </section>
 <section>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="spin_sdk.http.send"><code class="name flex">
-<span>def <span class="ident">send</span></span>(<span>request: <a title="spin_sdk.http.Request" href="#spin_sdk.http.Request">Request</a>) ‑> <a title="spin_sdk.http.Response" href="#spin_sdk.http.Response">Response</a></span>
+<dt id="spin_sdk.http.copy"><code class="name flex">
+<span>async def <span class="ident">copy</span></span>(<span>bytes: bytes, tx: componentize_py_async_support.streams.ByteStreamWriter)</span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def send(request: Request) -&gt; Response:
-    &#34;&#34;&#34;Send an HTTP request and return a response or raise an error&#34;&#34;&#34;
-    loop = PollLoop()
-    asyncio.set_event_loop(loop)
-    return loop.run_until_complete(send_async(request))</code></pre>
-</details>
-<div class="desc"><p>Send an HTTP request and return a response or raise an error</p></div>
-</dd>
-<dt id="spin_sdk.http.send_and_close"><code class="name flex">
-<span>async def <span class="ident">send_and_close</span></span>(<span>sink: <a title="spin_sdk.http.poll_loop.Sink" href="poll_loop.html#spin_sdk.http.poll_loop.Sink">Sink</a>,<br>data: bytes)</span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">async def send_and_close(sink: Sink, data: bytes):
-    await sink.send(data)
-    sink.close()</code></pre>
+<pre><code class="python">async def copy(bytes:bytes, tx:ByteStreamWriter):
+    with tx:
+        if bytes is not None:
+            await tx.write_all(bytes)</code></pre>
 </details>
 <div class="desc"></div>
 </dd>
-<dt id="spin_sdk.http.send_async"><code class="name flex">
-<span>async def <span class="ident">send_async</span></span>(<span>request: <a title="spin_sdk.http.Request" href="#spin_sdk.http.Request">Request</a>) ‑> <a title="spin_sdk.http.Response" href="#spin_sdk.http.Response">Response</a></span>
+<dt id="spin_sdk.http.send"><code class="name flex">
+<span>async def <span class="ident">send</span></span>(<span>request: <a title="spin_sdk.http.Request" href="#spin_sdk.http.Request">Request</a>) ‑> <a title="spin_sdk.http.Response" href="#spin_sdk.http.Response">Response</a></span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">async def send_async(request: Request) -&gt; Response:
+<pre><code class="python">async def send(request: Request) -&gt; Response:
+    &#34;&#34;&#34;Send an HTTP request and return a response or raise an error&#34;&#34;&#34;
     match request.method:
         case &#34;GET&#34;:
             method: Method = Method_Get()
@@ -141,7 +120,9 @@ el.replaceWith(d);
         headers_dict.items()
     ))
 
-    outgoing_request = OutgoingRequest(Fields.from_list(headers))
+    tx, rx = wit.byte_stream()
+    componentize_py_async_support.spawn(copy(request.body, tx))
+    outgoing_request = WasiRequest.new(Fields.from_list(headers), rx, _trailers_future(), None)[0]
     outgoing_request.set_method(method)
     outgoing_request.set_scheme(scheme)
     if url_parsed.netloc == &#39;&#39;:
@@ -159,40 +140,148 @@ el.replaceWith(d);
         path_and_query += &#39;?&#39; + url_parsed.query
     outgoing_request.set_path_with_query(path_and_query)
 
-    outgoing_body = request.body if request.body is not None else bytearray()
-    sink = Sink(outgoing_request.body())
-    incoming_response: IncomingResponse = (await asyncio.gather(
-        poll_loop.send(outgoing_request),
-        send_and_close(sink, outgoing_body)
-    ))[0]
+    incoming_response = await client.send(outgoing_request)
 
-    response_body = Stream(incoming_response.consume())
+    status = incoming_response.get_status_code()
+    headers = incoming_response.get_headers().copy_all()
+    rx, trailers = WasiResponse.consume_body(incoming_response, _unit_future())
     body = bytearray()
-    while True:
-        chunk = await response_body.next()
-        if chunk is None:
-            headers = incoming_response.headers()
-            simple_response = Response(
-                incoming_response.status(),
-                dict(map(
-                    lambda pair: (pair[0], str(pair[1], &#34;utf-8&#34;)),
-                    headers.entries()
-                )),
-                bytes(body)
-            )
-            headers.__exit__(None, None, None)
-            incoming_response.__exit__(None, None, None)
-            return simple_response
-        else:
-            body += chunk</code></pre>
+    with rx:
+        while not rx.writer_dropped:
+            body += await rx.read(16 * 1024)
+
+    return Response(
+        status,
+        dict(map(
+            lambda pair: (pair[0], str(pair[1], &#34;utf-8&#34;)),
+            headers
+        )),
+        bytes(body)
+    )</code></pre>
 </details>
-<div class="desc"></div>
+<div class="desc"><p>Send an HTTP request and return a response or raise an error</p></div>
 </dd>
 </dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="spin_sdk.http.Handler"><code class="flex name class">
+<span>class <span class="ident">Handler</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Handler(Base):
+    &#34;&#34;&#34;Simplified handler for incoming HTTP requests using blocking, buffered I/O.&#34;&#34;&#34;
+
+    async def handle_request(self, request: Request) -&gt; Response:
+        &#34;&#34;&#34;Handle an incoming HTTP request and return a response or raise an error&#34;&#34;&#34;
+        raise NotImplementedError
+
+    async def handle(self, request: WasiRequest) -&gt; WasiResponse:
+        method = request.get_method()
+
+        if isinstance(method, Method_Get):
+            method_str = &#34;GET&#34;
+        elif isinstance(method, Method_Head):
+            method_str = &#34;HEAD&#34;
+        elif isinstance(method, Method_Post):
+            method_str = &#34;POST&#34;
+        elif isinstance(method, Method_Put):
+            method_str = &#34;PUT&#34;
+        elif isinstance(method, Method_Delete):
+            method_str = &#34;DELETE&#34;
+        elif isinstance(method, Method_Connect):
+            method_str = &#34;CONNECT&#34;
+        elif isinstance(method, Method_Options):
+            method_str = &#34;OPTIONS&#34;
+        elif isinstance(method, Method_Trace):
+            method_str = &#34;TRACE&#34;
+        elif isinstance(method, Method_Patch):
+            method_str = &#34;PATCH&#34;
+        elif isinstance(method, Method_Other):
+            method_str = method.value
+        else:
+            raise AssertionError
+
+        headers = request.get_headers().copy_all()
+        request_uri = request.get_path_with_query()
+        rx, trailers = WasiRequest.consume_body(request, _unit_future())
+        body = bytearray()
+        with rx:
+            while not rx.writer_dropped:
+                body += await rx.read(16 * 1024)
+
+        if request_uri is None:
+            uri = &#34;/&#34;
+        else:
+            uri = request_uri
+
+        try:
+            simple_response = await self.handle_request(Request(
+                method_str,
+                uri,
+                dict(map(lambda pair: (pair[0], str(pair[1], &#34;utf-8&#34;)), headers)),
+                bytes(body)
+            ))
+        except:
+            traceback.print_exc()
+
+            response = WasiResponse.new(Fields(), None, _trailers_future())[0]
+            response.set_status_code(500)
+            return response
+
+        if simple_response.headers.get(&#39;content-length&#39;) is None:
+            content_length = len(simple_response.body) if simple_response.body is not None else 0
+            simple_response.headers[&#39;content-length&#39;] = str(content_length)
+
+        tx, rx = wit.byte_stream()
+        componentize_py_async_support.spawn(copy(simple_response.body, tx))
+        response = WasiResponse.new(Fields.from_list(list(map(
+            lambda pair: (pair[0], bytes(pair[1], &#34;utf-8&#34;)),
+            simple_response.headers.items()
+        ))), rx, _trailers_future())[0]
+
+        response.set_status_code(simple_response.status)
+        return response</code></pre>
+</details>
+<div class="desc"><p>Simplified handler for incoming HTTP requests using blocking, buffered I/O.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="spin_sdk.wit.exports.WasiHttpHandler030Rc20260315" href="../wit/exports/index.html#spin_sdk.wit.exports.WasiHttpHandler030Rc20260315">WasiHttpHandler030Rc20260315</a></li>
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="spin_sdk.http.Handler.handle_request"><code class="name flex">
+<span>async def <span class="ident">handle_request</span></span>(<span>self,<br>request: <a title="spin_sdk.http.Request" href="#spin_sdk.http.Request">Request</a>) ‑> <a title="spin_sdk.http.Response" href="#spin_sdk.http.Response">Response</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">async def handle_request(self, request: Request) -&gt; Response:
+    &#34;&#34;&#34;Handle an incoming HTTP request and return a response or raise an error&#34;&#34;&#34;
+    raise NotImplementedError</code></pre>
+</details>
+<div class="desc"><p>Handle an incoming HTTP request and return a response or raise an error</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="spin_sdk.wit.exports.WasiHttpHandler030Rc20260315" href="../wit/exports/index.html#spin_sdk.wit.exports.WasiHttpHandler030Rc20260315">WasiHttpHandler030Rc20260315</a></b></code>:
+<ul class="hlist">
+<li><code><a title="spin_sdk.wit.exports.WasiHttpHandler030Rc20260315.handle" href="../wit/exports/index.html#spin_sdk.wit.exports.WasiHttpHandler030Rc20260315.handle">handle</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
 <dt id="spin_sdk.http.Request"><code class="flex name class">
 <span>class <span class="ident">Request</span></span>
 <span>(</span><span>method: str, uri: str, headers: MutableMapping[str, str], body: bytes | None)</span>
@@ -277,20 +366,20 @@ class Response:
 <li><code><a title="spin_sdk" href="../index.html">spin_sdk</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
-<ul>
-<li><code><a title="spin_sdk.http.poll_loop" href="poll_loop.html">spin_sdk.http.poll_loop</a></code></li>
-</ul>
-</li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="spin_sdk.http.copy" href="#spin_sdk.http.copy">copy</a></code></li>
 <li><code><a title="spin_sdk.http.send" href="#spin_sdk.http.send">send</a></code></li>
-<li><code><a title="spin_sdk.http.send_and_close" href="#spin_sdk.http.send_and_close">send_and_close</a></code></li>
-<li><code><a title="spin_sdk.http.send_async" href="#spin_sdk.http.send_async">send_async</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
+<li>
+<h4><code><a title="spin_sdk.http.Handler" href="#spin_sdk.http.Handler">Handler</a></code></h4>
+<ul class="">
+<li><code><a title="spin_sdk.http.Handler.handle_request" href="#spin_sdk.http.Handler.handle_request">handle_request</a></code></li>
+</ul>
+</li>
 <li>
 <h4><code><a title="spin_sdk.http.Request" href="#spin_sdk.http.Request">Request</a></code></h4>
 <ul class="">

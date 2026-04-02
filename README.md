@@ -48,7 +48,7 @@ component = "hello"
 [component.hello]
 source = "app.wasm"
 [component.hello.build]
-command = "componentize-py -w spin-http componentize app -o app.wasm"
+command = "componentize-py -w spin:up/http-trigger@4.0.0 componentize app -o app.wasm"
 EOF
 ```
 
@@ -57,8 +57,8 @@ cat >app.py <<EOF
 from spin_sdk import http
 from spin_sdk.http import Request, Response
 
-class IncomingHandler(http.IncomingHandler):
-    def handle_request(self, request: Request) -> Response:
+class WasiHttpHandler030Rc20260315(http.Handler):
+    async def handle_request(self, request: Request) -> Response:
         return Response(
             200,
             {"content-type": "text/plain"},

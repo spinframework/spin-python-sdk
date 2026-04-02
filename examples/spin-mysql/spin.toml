@@ -14,4 +14,4 @@ component = "test"
 source = "app.wasm"
 allowed_outbound_hosts = ["*://*:*"]
 [component.test.build]
-command = "componentize-py -w fermyon:spin/http-trigger@3.0.0 componentize app -o app.wasm"
+command = "componentize-py -w spin:up/http-trigger@4.0.0 componentize app -o app.wasm"

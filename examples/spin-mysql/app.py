@@ -1,8 +1,8 @@
 from spin_sdk import http, mysql
 from spin_sdk.http import Request, Response
 
-class WasiHttpIncomingHandler020(http.IncomingHandler):
-    def handle_request(self, request: Request) -> Response:
+class WasiHttpHandler030Rc20260315(http.Handler):
+    async def handle_request(self, request: Request) -> Response:
         with mysql.open("mysql://root:@127.0.0.1/spin_dev") as db:
             print(db.query("select * from test", []))
         
