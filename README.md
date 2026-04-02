@@ -15,7 +15,7 @@ branch.
 - [Python 3.10 or later and pip](https://www.python.org/downloads/)
 - [componentize-py](https://pypi.org/project/componentize-py/)
 - [spin-sdk](https://pypi.org/project/spin-sdk/)
-- [Spin](https://github.com/spinframework/spin) 2.2 or later.
+- [Spin](https://github.com/spinframework/spin) 4.0 or later.
 - [MyPy](https://pypi.org/project/mypy/) -- This is optional, but useful for during development.
 
 Once you have Python and pip installed, you can use the latter to create and
@@ -24,7 +24,7 @@ enter a virtual environment and then install the desired packages
 ```shell
 python -m venv .venv
 source .venv/bin/activate
-pip install componentize-py==0.17.2 spin-sdk==3.4.1 mypy==1.8.0
+pip install componentize-py==0.22.0 spin-sdk==4.0.0 mypy==1.8.0
 ```
 
 ### Hello, World

@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from typing import Optional, Sequence
-from spin_sdk.wit.imports import llm as spin_llm
+from spin_sdk.wit.imports import fermyon_spin_llm_2_0_0 as spin_llm
 
 @dataclass
 class InferencingParams:
@@ -16,32 +16,32 @@ class InferencingParams:
 
 def generate_embeddings(model: str, text: Sequence[str]) -> spin_llm.EmbeddingsResult:
     """
-    A `spin_sdk.wit.types.Err(spin_sdk.wit.imports.llm.Error_ModelNotSupported)` will be raised if the component does not have access to the specified model.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.llm.Error_ModelNotSupported)` will be raised if the component does not have access to the specified model.
     
-    A `spin_sdk.wit.types.Err(spin_sdk.wit.imports.llm.Error_RuntimeError(str))` will be raised if there are any runtime errors.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.llm.Error_RuntimeError(str))` will be raised if there are any runtime errors.
 
-    A `spin_sdk.wit.types.Err(spin_sdk.wit.imports.llm.Error_InvalidInput(str))` will be raised if an invalid input is provided.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.llm.Error_InvalidInput(str))` will be raised if an invalid input is provided.
     """
     return spin_llm.generate_embeddings(model, text)
 
 def infer_with_options(model: str, prompt: str, options: Optional[InferencingParams]) -> spin_llm.InferencingResult:
     """
-    A `spin_sdk.wit.types.Err(spin_sdk.wit.imports.llm.Error_ModelNotSupported)` will be raised if the component does not have access to the specified model.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.llm.Error_ModelNotSupported)` will be raised if the component does not have access to the specified model.
     
-    A `spin_sdk.wit.types.Err(spin_sdk.wit.imports.llm.Error_RuntimeError(str))` will be raised if there are any runtime errors.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.llm.Error_RuntimeError(str))` will be raised if there are any runtime errors.
 
-    A `spin_sdk.wit.types.Err(spin_sdk.wit.imports.llm.Error_InvalidInput(str))` will be raised if an invalid input is provided.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.llm.Error_InvalidInput(str))` will be raised if an invalid input is provided.
     """
     options = options or InferencingParams
     return spin_llm.infer(model, prompt, options)
 
 def infer(model: str, prompt: str) -> spin_llm.InferencingResult:
     """
-    A `spin_sdk.wit.types.Err(spin_sdk.wit.imports.llm.Error_ModelNotSupported)` will be raised if the component does not have access to the specified model.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.llm.Error_ModelNotSupported)` will be raised if the component does not have access to the specified model.
     
-    A `spin_sdk.wit.types.Err(spin_sdk.wit.imports.llm.Error_RuntimeError(str))` will be raised if there are any runtime errors.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.llm.Error_RuntimeError(str))` will be raised if there are any runtime errors.
 
-    A `spin_sdk.wit.types.Err(spin_sdk.wit.imports.llm.Error_InvalidInput(str))` will be raised if an invalid input is provided.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.llm.Error_InvalidInput(str))` will be raised if an invalid input is provided.
     """
     options = InferencingParams
     return spin_llm.infer(model, prompt, options)

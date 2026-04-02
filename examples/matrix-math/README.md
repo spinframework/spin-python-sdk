@@ -9,23 +9,37 @@ Python package containing native extensions within a guest component.
 
 ## Prerequisites
 
-* A clone of the Git repo in which you found this example
-* `spin` 2.2 or later
-* `componentize-py` 0.16.0
+* `spin` 4.0 or later
+* `componentize-py` 0.22.0
 * `NumPy`, built for WASI
 
 Note that we use an unofficial build of NumPy since the upstream project does
 not yet publish WASI builds.
 
 ```
-curl -OL https://github.com/dicej/wasi-wheels/releases/download/v0.0.1/numpy-wasi.tar.gz
+curl -OL https://github.com/dicej/wasi-wheels/releases/download/v0.0.2/numpy-wasi.tar.gz
 tar xf numpy-wasi.tar.gz
+```
+
+## Preparing the Environment
+
+Run the following commands to setup a virtual environment with Python.
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Install the required packages specified in the `requirements.txt` using the command:
+
+```bash
+pip3 install -r requirements.txt
 ```
 
 ## Running the example
 
 ```
-spin build -u
+spin build --up
 ```
 
 Then, in another terminal, send a request to the app:

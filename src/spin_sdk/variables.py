@@ -1,6 +1,6 @@
 """Module for interacting with Spin Variables"""
 
-from spin_sdk.wit.imports import variables
+from spin_sdk.wit.imports import fermyon_spin_variables_2_0_0 as variables
 
 def get(key: str):
     """

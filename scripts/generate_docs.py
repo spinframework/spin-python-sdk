@@ -19,15 +19,15 @@ if expected_doc_comment not in content:
 # Change to the root directory of the project
 os.chdir(os.path.join(script_dir, '..'))
 
-# Remove the 'docs/v3' directory
-shutil.rmtree(os.path.join('docs', 'v3'), ignore_errors=True)
+# Remove the 'docs/v4' directory
+shutil.rmtree(os.path.join('docs', 'v4'), ignore_errors=True)
 
 # Change directory to 'src' and generate HTML documentation using pdoc
 os.chdir('src')
 os.system('pdoc --html spin_sdk')
 
 # Move the generated documentation to the 'docs' directory
-shutil.move('html/spin_sdk', os.path.join('..', 'docs', 'v3'))
+shutil.move('html/spin_sdk', os.path.join('..', 'docs', 'v4'))
 
 # Remove the 'src/html' directory
 os.rmdir('html')

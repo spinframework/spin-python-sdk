@@ -1,5 +1,5 @@
 from spin_sdk.wit import exports
 
-class InboundRedis(exports.InboundRedis):
+class FermyonSpinInboundRedis(exports.FermyonSpinInboundRedis):
     def handle_message(self, message: bytes):
         print(message)

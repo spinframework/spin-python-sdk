@@ -9,9 +9,9 @@ import asyncio
 import hashlib
 
 from spin_sdk.wit import exports
-from spin_sdk.wit.types import Ok
-from spin_sdk.wit.imports import types
-from spin_sdk.wit.imports.types import (
+from componentize_py_types import Ok
+from spin_sdk.wit.imports import wasi_http_types_0_2_0 as types
+from spin_sdk.wit.imports.wasi_http_types_0_2_0 import (
     Method_Get, Method_Post, Scheme, Scheme_Http, Scheme_Https, Scheme_Other, IncomingRequest, ResponseOutparam,
     OutgoingResponse, Fields, OutgoingBody, OutgoingRequest
 )
@@ -20,7 +20,7 @@ from spin_sdk.http.poll_loop import Stream, Sink, PollLoop
 from typing import Tuple
 from urllib import parse
 
-class IncomingHandler(exports.IncomingHandler):
+class WasiHttpIncomingHandler020(exports.WasiHttpIncomingHandler020):
     """Implements the `export`ed portion of the `wasi-http` `proxy` world."""
 
     def handle(self, request: IncomingRequest, response_out: ResponseOutparam):

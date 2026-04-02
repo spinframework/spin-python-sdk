@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Spin
+        uses: fermyon/actions/spin/setup@v1
+        with:
+          # TODO: Switch to Spin 4.0 when it's available
+           version: "canary"
+
+      - name: Build examples and run tests
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install componentize-py==0.22.0 http-router==4.1.2 build==1.4.2
+          python -m build
+          pip install dist/spin_sdk-4.0.0-py3-none-any.whl
+          bash run_tests.sh

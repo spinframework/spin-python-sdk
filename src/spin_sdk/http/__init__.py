@@ -4,13 +4,13 @@ import asyncio
 import traceback
 from spin_sdk.http import poll_loop
 from spin_sdk.http.poll_loop import PollLoop, Sink, Stream
-from spin_sdk.wit.types import Ok, Err
-from spin_sdk.wit.imports.types import (
-    IncomingResponse, Method, Method_Get, Method_Head, Method_Post, Method_Put, Method_Delete, Method_Connect, Method_Options,
-    Method_Trace, Method_Patch, Method_Other, IncomingRequest, IncomingBody, ResponseOutparam, OutgoingResponse,
-    Fields, Scheme, Scheme_Http, Scheme_Https, Scheme_Other, OutgoingRequest, OutgoingBody
+from componentize_py_types import Ok, Err
+from spin_sdk.wit.imports.wasi_http_types_0_2_0 import (
+    IncomingResponse, Method, Method_Get, Method_Head, Method_Post, Method_Put, Method_Delete, Method_Connect,
+    Method_Options, Method_Trace, Method_Patch, Method_Other, IncomingRequest, IncomingBody, ResponseOutparam,
+    OutgoingResponse, Fields, Scheme, Scheme_Http, Scheme_Https, Scheme_Other, OutgoingRequest, OutgoingBody
 )
-from spin_sdk.wit.imports.streams import StreamError_Closed
+from spin_sdk.wit.imports.wasi_io_streams_0_2_0 import StreamError_Closed
 from dataclasses import dataclass
 from collections.abc import MutableMapping
 from typing import Optional
@@ -33,7 +33,7 @@ class Response:
 
 try:
     from spin_sdk.wit import exports
-    from spin_sdk.wit.exports import IncomingHandler as Base
+    from spin_sdk.wit.exports import WasiHttpIncomingHandler020 as Base
     
     class IncomingHandler(Base):
         """Simplified handler for incoming HTTP requests using blocking, buffered I/O."""

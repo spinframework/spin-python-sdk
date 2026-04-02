@@ -1,5 +1,3 @@
-package fermyon:spin;
-
 interface inbound-redis {
   use redis-types.{payload, error};
 
