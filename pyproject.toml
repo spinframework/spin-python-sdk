@@ -7,7 +7,7 @@ name = "spin-sdk"
 version = "4.0.0"
 description = "Python SDK for Spin"
 readme = "README.md"
-license = { file = "LICENSE" }
+license-files = [ "LICENSE" ]
 authors = [ { name = "Spin Framework Contributors" } ]
 maintainers = [ { name = "Spin Framework Contributors" } ]
 keywords = [ "webassembly", "wasm", "component", "spin" ]
