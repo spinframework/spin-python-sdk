@@ -101,7 +101,7 @@ try:
                 simple_response.headers['content-length'] = str(content_length)
 
             tx, rx = wit.byte_stream()
-            componentize_py_async_support.spawn(copy(simple_response.body, tx))
+            componentize_py_async_support.spawn(_copy(simple_response.body, tx))
             response = WasiResponse.new(Fields.from_list(list(map(
                 lambda pair: (pair[0], bytes(pair[1], "utf-8")),
                 simple_response.headers.items()
@@ -159,7 +159,7 @@ async def send(request: Request) -> Response:
         content_length = len(request.body) if request.body is not None else 0
         # Make a copy rather than mutate in place, since the caller might not
         # expect us to mutate it:
-        headers_dict = headers_dict.copy()
+        headers_dict = dict(headers_dict)
         headers_dict['content-length'] = str(content_length)
 
     headers = list(map(
@@ -168,12 +168,12 @@ async def send(request: Request) -> Response:
     ))
 
     tx, rx = wit.byte_stream()
-    componentize_py_async_support.spawn(copy(request.body, tx))
+    componentize_py_async_support.spawn(_copy(request.body, tx))
     outgoing_request = WasiRequest.new(Fields.from_list(headers), rx, _trailers_future(), None)[0]
     outgoing_request.set_method(method)
     outgoing_request.set_scheme(scheme)
     if url_parsed.netloc == '':
-        if scheme == "http":
+        if isinstance(scheme, Scheme_Http):
             authority = ":80"
         else:
             authority = ":443"
@@ -228,7 +228,7 @@ def strip_forbidden_headers(headers:MutableMapping[str, str]) -> MutableMapping[
             pass
     return headers
 
-async def copy(bytes:bytes, tx:ByteStreamWriter):
+async def _copy(bytes: bytes | None, tx: ByteStreamWriter) -> None:
     with tx:
         if bytes is not None:
             await tx.write_all(bytes)

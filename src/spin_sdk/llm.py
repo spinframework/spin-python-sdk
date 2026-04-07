@@ -1,8 +1,9 @@
 """Module for working with the Spin large language model API"""
 
 from dataclasses import dataclass
-from typing import Optional, Sequence
+from typing import Optional, List
 from spin_sdk.wit.imports import fermyon_spin_llm_2_0_0 as spin_llm
+
 
 @dataclass
 class InferencingParams:
@@ -14,7 +15,7 @@ class InferencingParams:
     top_p: float = 0.9
     
 
-def generate_embeddings(model: str, text: Sequence[str]) -> spin_llm.EmbeddingsResult:
+def generate_embeddings(model: str, text: List[str]) -> spin_llm.EmbeddingsResult:
     """
     A `componentize_py_types.Err(spin_sdk.wit.imports.fermyon_spin_llm_2_0_0.Error_ModelNotSupported)` will be raised if the component does not have access to the specified model.
     
@@ -32,8 +33,16 @@ def infer_with_options(model: str, prompt: str, options: Optional[InferencingPar
 
     A `componentize_py_types.Err(spin_sdk.wit.imports.fermyon_spin_llm_2_0_0.Error_InvalidInput(str))` will be raised if an invalid input is provided.
     """
-    options = options or InferencingParams
-    return spin_llm.infer(model, prompt, options)
+    some_options = options or InferencingParams()
+    my_options = spin_llm.InferencingParams(
+        some_options.max_tokens,
+        some_options.repeat_penalty,
+        some_options.repeat_penalty_last_n_token_count,
+        some_options.temperature,
+        some_options.top_k,
+        some_options.top_p,        
+    )
+    return spin_llm.infer(model, prompt, my_options)
 
 def infer(model: str, prompt: str) -> spin_llm.InferencingResult:
     """
@@ -43,6 +52,5 @@ def infer(model: str, prompt: str) -> spin_llm.InferencingResult:
 
     A `componentize_py_types.Err(spin_sdk.wit.imports.fermyon_spin_llm_2_0_0.Error_InvalidInput(str))` will be raised if an invalid input is provided.
     """
-    options = InferencingParams
-    return spin_llm.infer(model, prompt, options)
+    return infer_with_options(model, prompt, None)
 

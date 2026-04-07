@@ -1,9 +1,13 @@
 """Module for interacting with an SQLite database"""
 
 from typing import List
-from spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0 import (
-    Connection, Value_Integer, Value_Real, Value_Text, Value_Blob
-)
+from spin_sdk.wit.imports import spin_sqlite_sqlite_3_1_0 as sqlite
+
+Connection = sqlite.Connection
+Value_Integer = sqlite.Value_Integer
+Value_Real = sqlite.Value_Real
+Value_Text = sqlite.Value_Text
+Value_Blob = sqlite.Value_Blob
 
 async def open(name: str) -> Connection:
     """Open a connection to a named database instance.
