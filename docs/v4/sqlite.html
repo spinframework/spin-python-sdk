@@ -46,55 +46,55 @@ el.replaceWith(d);
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="spin_sdk.sqlite.open"><code class="name flex">
-<span>def <span class="ident">open</span></span>(<span>name: str) ‑> <a title="spin_sdk.wit.imports.fermyon_spin_sqlite_2_0_0.Connection" href="wit/imports/fermyon_spin_sqlite_2_0_0.html#spin_sdk.wit.imports.fermyon_spin_sqlite_2_0_0.Connection">Connection</a></span>
+<span>async def <span class="ident">open</span></span>(<span>name: str) ‑> <a title="spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Connection" href="wit/imports/spin_sqlite_sqlite_3_1_0.html#spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Connection">Connection</a></span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def open(name: str) -&gt; Connection:
+<pre><code class="python">async def open(name: str) -&gt; Connection:
     &#34;&#34;&#34;Open a connection to a named database instance.
 
     If `database` is &#34;default&#34;, the default instance is opened.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_AccessDenied)` will be raised when the component does not have access to the specified database.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_AccessDenied)` will be raised when the component does not have access to the specified database.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_NoSuchDatabase)` will be raised when the host does not recognize the database name requested.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_NoSuchDatabase)` will be raised when the host does not recognize the database name requested.
     
-    A `componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_InvalidConnection)` will be raised when the provided connection string is not valid.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_InvalidConnection)` will be raised when the provided connection string is not valid.
     
-    A `componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_Io(str))` will be raised when implementation-specific error occured (e.g. I/O)
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_Io(str))` will be raised when implementation-specific error occured (e.g. I/O)
     &#34;&#34;&#34;
-    return Connection.open(name)</code></pre>
+    return await Connection.open_async(name)</code></pre>
 </details>
 <div class="desc"><p>Open a connection to a named database instance.</p>
 <p>If <code>database</code> is "default", the default instance is opened.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_AccessDenied)</code> will be raised when the component does not have access to the specified database.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_NoSuchDatabase)</code> will be raised when the host does not recognize the database name requested.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_InvalidConnection)</code> will be raised when the provided connection string is not valid.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_Io(str))</code> will be raised when implementation-specific error occured (e.g. I/O)</p></div>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_AccessDenied" href="wit/imports/spin_sqlite_sqlite_3_1_0.html#spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_AccessDenied">Error_AccessDenied</a>)</code> will be raised when the component does not have access to the specified database.</p>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_NoSuchDatabase" href="wit/imports/spin_sqlite_sqlite_3_1_0.html#spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_NoSuchDatabase">Error_NoSuchDatabase</a>)</code> will be raised when the host does not recognize the database name requested.</p>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_InvalidConnection" href="wit/imports/spin_sqlite_sqlite_3_1_0.html#spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_InvalidConnection">Error_InvalidConnection</a>)</code> will be raised when the provided connection string is not valid.</p>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_Io" href="wit/imports/spin_sqlite_sqlite_3_1_0.html#spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_Io">Error_Io</a>(str))</code> will be raised when implementation-specific error occured (e.g. I/O)</p></div>
 </dd>
 <dt id="spin_sdk.sqlite.open_default"><code class="name flex">
-<span>def <span class="ident">open_default</span></span>(<span>) ‑> <a title="spin_sdk.wit.imports.fermyon_spin_sqlite_2_0_0.Connection" href="wit/imports/fermyon_spin_sqlite_2_0_0.html#spin_sdk.wit.imports.fermyon_spin_sqlite_2_0_0.Connection">Connection</a></span>
+<span>async def <span class="ident">open_default</span></span>(<span>) ‑> <a title="spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Connection" href="wit/imports/spin_sqlite_sqlite_3_1_0.html#spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Connection">Connection</a></span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def open_default() -&gt; Connection:
+<pre><code class="python">async def open_default() -&gt; Connection:
     &#34;&#34;&#34;Open the default store.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_AccessDenied)` will be raised when the component does not have access to the default database.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_AccessDenied)` will be raised when the component does not have access to the default database.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_Io(str))` will be raised when implementation-specific error occured (e.g. I/O)
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_Io(str))` will be raised when implementation-specific error occured (e.g. I/O)
     &#34;&#34;&#34;
-    return Connection.open(&#34;default&#34;)</code></pre>
+    return await Connection.open_async(&#34;default&#34;)</code></pre>
 </details>
 <div class="desc"><p>Open the default store.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_AccessDenied)</code> will be raised when the component does not have access to the default database.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.sqlite.Error_Io(str))</code> will be raised when implementation-specific error occured (e.g. I/O)</p></div>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_AccessDenied" href="wit/imports/spin_sqlite_sqlite_3_1_0.html#spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_AccessDenied">Error_AccessDenied</a>)</code> will be raised when the component does not have access to the default database.</p>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_Io" href="wit/imports/spin_sqlite_sqlite_3_1_0.html#spin_sdk.wit.imports.spin_sqlite_sqlite_3_1_0.Error_Io">Error_Io</a>(str))</code> will be raised when implementation-specific error occured (e.g. I/O)</p></div>
 </dd>
 </dl>
 </section>

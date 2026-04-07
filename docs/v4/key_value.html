@@ -46,14 +46,14 @@ el.replaceWith(d);
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="spin_sdk.key_value.open"><code class="name flex">
-<span>def <span class="ident">open</span></span>(<span>name: str) ‑> <a title="spin_sdk.wit.imports.fermyon_spin_key_value_2_0_0.Store" href="wit/imports/fermyon_spin_key_value_2_0_0.html#spin_sdk.wit.imports.fermyon_spin_key_value_2_0_0.Store">Store</a></span>
+<span>async def <span class="ident">open</span></span>(<span>name: str) ‑> <a title="spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Store" href="wit/imports/spin_key_value_key_value_3_0_0.html#spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Store">Store</a></span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def open(name: str) -&gt; Store:
+<pre><code class="python">async def open(name: str) -&gt; Store:
     &#34;&#34;&#34;
     Open the store with the specified name.
   
@@ -61,60 +61,60 @@ el.replaceWith(d);
     refer to a store defined and configured in a runtime configuration file
     supplied with the application.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_NoSuchStore)` will be raised if the `name` is not recognized.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_NoSuchStore)` will be raised if the `name` is not recognized.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_AccessDenied)` will be raised if the requesting component does not have
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_AccessDenied)` will be raised if the requesting component does not have
     access to the specified store.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_StoreTableFull)` will be raised if too many stores have been opened simultaneously.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_StoreTableFull)` will be raised if too many stores have been opened simultaneously.
     Closing one or more previously opened stores might address this using the `__exit__` method.
     
-    A `componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_Other(str))` will be raised if some implementation specific error has occured (e.g I/O)
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_Other(str))` will be raised if some implementation specific error has occured (e.g I/O)
     &#34;&#34;&#34;
-    return Store.open(name)</code></pre>
+    return await Store.open(name)</code></pre>
 </details>
 <div class="desc"><p>Open the store with the specified name.</p>
 <p>If <code>name</code> is "default", the default store is opened.
 Otherwise, <code>name</code> must
 refer to a store defined and configured in a runtime configuration file
 supplied with the application.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_NoSuchStore)</code> will be raised if the <code>name</code> is not recognized.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_AccessDenied)</code> will be raised if the requesting component does not have
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_NoSuchStore" href="wit/imports/spin_key_value_key_value_3_0_0.html#spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_NoSuchStore">Error_NoSuchStore</a>)</code> will be raised if the <code>name</code> is not recognized.</p>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_AccessDenied" href="wit/imports/spin_key_value_key_value_3_0_0.html#spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_AccessDenied">Error_AccessDenied</a>)</code> will be raised if the requesting component does not have
 access to the specified store.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_StoreTableFull)</code> will be raised if too many stores have been opened simultaneously.
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_StoreTableFull" href="wit/imports/spin_key_value_key_value_3_0_0.html#spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_StoreTableFull">Error_StoreTableFull</a>)</code> will be raised if too many stores have been opened simultaneously.
 Closing one or more previously opened stores might address this using the <code>__exit__</code> method.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_Other(str))</code> will be raised if some implementation specific error has occured (e.g I/O)</p></div>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_Other" href="wit/imports/spin_key_value_key_value_3_0_0.html#spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_Other">Error_Other</a>(str))</code> will be raised if some implementation specific error has occured (e.g I/O)</p></div>
 </dd>
 <dt id="spin_sdk.key_value.open_default"><code class="name flex">
-<span>def <span class="ident">open_default</span></span>(<span>) ‑> <a title="spin_sdk.wit.imports.fermyon_spin_key_value_2_0_0.Store" href="wit/imports/fermyon_spin_key_value_2_0_0.html#spin_sdk.wit.imports.fermyon_spin_key_value_2_0_0.Store">Store</a></span>
+<span>async def <span class="ident">open_default</span></span>(<span>) ‑> <a title="spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Store" href="wit/imports/spin_key_value_key_value_3_0_0.html#spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Store">Store</a></span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def open_default() -&gt; Store:
+<pre><code class="python">async def open_default() -&gt; Store:
     &#34;&#34;&#34;
     Open the default store.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_AccessDenied)`
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_AccessDenied)`
     will be raised if the requesting component does not have access to the
     default store.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_StoreTableFull)` will be raised if too many stores have been opened simultaneously.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_StoreTableFull)` will be raised if too many stores have been opened simultaneously.
     Closing one or more previously opened stores might address this using the `__exit__` method.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_Other(str))` will be raised if some implementation specific error has occured (e.g I/O)
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_Other(str))` will be raised if some implementation specific error has occured (e.g I/O)
     &#34;&#34;&#34;
-    return Store.open(&#34;default&#34;)</code></pre>
+    return await Store.open(&#34;default&#34;)</code></pre>
 </details>
 <div class="desc"><p>Open the default store.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_AccessDenied)</code>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_AccessDenied" href="wit/imports/spin_key_value_key_value_3_0_0.html#spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_AccessDenied">Error_AccessDenied</a>)</code>
 will be raised if the requesting component does not have access to the
 default store.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_StoreTableFull)</code> will be raised if too many stores have been opened simultaneously.
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_StoreTableFull" href="wit/imports/spin_key_value_key_value_3_0_0.html#spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_StoreTableFull">Error_StoreTableFull</a>)</code> will be raised if too many stores have been opened simultaneously.
 Closing one or more previously opened stores might address this using the <code>__exit__</code> method.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.key_value.Error_Other(str))</code> will be raised if some implementation specific error has occured (e.g I/O)</p></div>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_Other" href="wit/imports/spin_key_value_key_value_3_0_0.html#spin_sdk.wit.imports.spin_key_value_key_value_3_0_0.Error_Other">Error_Other</a>(str))</code> will be raised if some implementation specific error has occured (e.g I/O)</p></div>
 </dd>
 </dl>
 </section>

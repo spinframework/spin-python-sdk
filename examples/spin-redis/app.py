@@ -1,10 +1,10 @@
 from spin_sdk import http, redis 
 from spin_sdk.http import Request, Response
 
-class WasiHttpIncomingHandler020(http.IncomingHandler):
-    def handle_request(self, request: Request) -> Response:
-        with redis.open("redis://localhost:6379") as db:
-            print(db.get("test"))
+class WasiHttpHandler030Rc20260315(http.Handler):
+    async def handle_request(self, request: Request) -> Response:
+        with await redis.open("redis://localhost:6379") as db:
+            print(await db.get("test"))
             
         return Response(
             200,

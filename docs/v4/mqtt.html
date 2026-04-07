@@ -46,32 +46,32 @@ el.replaceWith(d);
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="spin_sdk.mqtt.open"><code class="name flex">
-<span>def <span class="ident">open</span></span>(<span>address: str, username: str, password: str, keep_alive_interval_in_secs: int) ‑> <a title="spin_sdk.wit.imports.fermyon_spin_mqtt_2_0_0.Connection" href="wit/imports/fermyon_spin_mqtt_2_0_0.html#spin_sdk.wit.imports.fermyon_spin_mqtt_2_0_0.Connection">Connection</a></span>
+<span>async def <span class="ident">open</span></span>(<span>address: str, username: str, password: str, keep_alive_interval_in_secs: int) ‑> <a title="spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Connection" href="wit/imports/spin_mqtt_mqtt_3_0_0.html#spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Connection">Connection</a></span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def open(address: str, username: str, password: str, keep_alive_interval_in_secs: int) -&gt; Connection:
+<pre><code class="python">async def open(address: str, username: str, password: str, keep_alive_interval_in_secs: int) -&gt; Connection:
     &#34;&#34;&#34;
     Open a connection to the Mqtt instance at `address`.
     
-    A `componentize_py_types.Err(spin_sdk.wit.imports.mqtt.Error_InvalidAddress)` will be raised if the connection string is invalid.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_InvalidAddress)` will be raised if the connection string is invalid.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.mqtt.Error_TooManyConnections)` will be raised if there are too many open connections. Closing one or more previously opened connection using the `__exit__` method might help.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_TooManyConnections)` will be raised if there are too many open connections. Closing one or more previously opened connection using the `__exit__` method might help.
     
-    A `componentize_py_types.Err(spin_sdk.wit.imports.mqtt.Error_ConnectionFailed)` will be raised if the connection failed.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_ConnectionFailed)` will be raised if the connection failed.
 
-    A `componentize_py_types.Err(spin_sdk.wit.imports.mqtt.Error_Other(str))` when some other error occurs.
+    A `componentize_py_types.Err(spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_Other(str))` when some other error occurs.
     &#34;&#34;&#34;
-    return Connection.open(address, username, password, keep_alive_interval_in_secs)</code></pre>
+    return await Connection.open(address, username, password, keep_alive_interval_in_secs)</code></pre>
 </details>
 <div class="desc"><p>Open a connection to the Mqtt instance at <code>address</code>.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.mqtt.Error_InvalidAddress)</code> will be raised if the connection string is invalid.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.mqtt.Error_TooManyConnections)</code> will be raised if there are too many open connections. Closing one or more previously opened connection using the <code>__exit__</code> method might help.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.mqtt.Error_ConnectionFailed)</code> will be raised if the connection failed.</p>
-<p>A <code>componentize_py_types.Err(spin_sdk.wit.imports.mqtt.Error_Other(str))</code> when some other error occurs.</p></div>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_InvalidAddress" href="wit/imports/spin_mqtt_mqtt_3_0_0.html#spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_InvalidAddress">Error_InvalidAddress</a>)</code> will be raised if the connection string is invalid.</p>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_TooManyConnections" href="wit/imports/spin_mqtt_mqtt_3_0_0.html#spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_TooManyConnections">Error_TooManyConnections</a>)</code> will be raised if there are too many open connections. Closing one or more previously opened connection using the <code>__exit__</code> method might help.</p>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_ConnectionFailed" href="wit/imports/spin_mqtt_mqtt_3_0_0.html#spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_ConnectionFailed">Error_ConnectionFailed</a>)</code> will be raised if the connection failed.</p>
+<p>A <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_Other" href="wit/imports/spin_mqtt_mqtt_3_0_0.html#spin_sdk.wit.imports.spin_mqtt_mqtt_3_0_0.Error_Other">Error_Other</a>(str))</code> when some other error occurs.</p></div>
 </dd>
 </dl>
 </section>

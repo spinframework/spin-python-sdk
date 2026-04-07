@@ -1,16 +1,17 @@
 """Module with helpers for wasi http"""
 
-import asyncio
 import traceback
-from spin_sdk.http import poll_loop
-from spin_sdk.http.poll_loop import PollLoop, Sink, Stream
-from componentize_py_types import Ok, Err
-from spin_sdk.wit.imports.wasi_http_types_0_2_0 import (
-    IncomingResponse, Method, Method_Get, Method_Head, Method_Post, Method_Put, Method_Delete, Method_Connect,
-    Method_Options, Method_Trace, Method_Patch, Method_Other, IncomingRequest, IncomingBody, ResponseOutparam,
-    OutgoingResponse, Fields, Scheme, Scheme_Http, Scheme_Https, Scheme_Other, OutgoingRequest, OutgoingBody
+import componentize_py_async_support
+from componentize_py_types import Ok, Result
+from componentize_py_async_support.streams import ByteStreamWriter
+from componentize_py_async_support.futures import FutureReader
+from spin_sdk import wit
+from spin_sdk.wit.imports import wasi_http_client_0_3_0_rc_2026_03_15 as client
+from spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15 import (
+    Method, Method_Get, Method_Head, Method_Post, Method_Put, Method_Delete, Method_Connect,
+    Method_Options, Method_Trace, Method_Patch, Method_Other,
+    Fields, Scheme, Scheme_Http, Scheme_Https, Scheme_Other,  ErrorCode, Request as WasiRequest, Response as WasiResponse
 )
-from spin_sdk.wit.imports.wasi_io_streams_0_2_0 import StreamError_Closed
 from dataclasses import dataclass
 from collections.abc import MutableMapping
 from typing import Optional
@@ -33,17 +34,17 @@ class Response:
 
 try:
     from spin_sdk.wit import exports
-    from spin_sdk.wit.exports import WasiHttpIncomingHandler020 as Base
+    from spin_sdk.wit.exports import WasiHttpHandler030Rc20260315 as Base
     
-    class IncomingHandler(Base):
+    class Handler(Base):
         """Simplified handler for incoming HTTP requests using blocking, buffered I/O."""
 
-        def handle_request(self, request: Request) -> Response:
+        async def handle_request(self, request: Request) -> Response:
             """Handle an incoming HTTP request and return a response or raise an error"""
             raise NotImplementedError
 
-        def handle(self, request: IncomingRequest, response_out: ResponseOutparam):
-            method = request.method()
+        async def handle(self, request: WasiRequest) -> WasiResponse:
+            method = request.get_method()
 
             if isinstance(method, Method_Get):
                 method_str = "GET"
@@ -68,76 +69,54 @@ try:
             else:
                 raise AssertionError
 
-            request_body = request.consume()
-            request_stream = request_body.stream()
+            headers = request.get_headers().copy_all()
+            request_uri = request.get_path_with_query()
+            rx, trailers = WasiRequest.consume_body(request, _unit_future())
             body = bytearray()
-            while True:
-                try:
-                    body += request_stream.blocking_read(16 * 1024)
-                except Err as e:
-                    if isinstance(e.value, StreamError_Closed):
-                        request_stream.__exit__(None, None, None)
-                        IncomingBody.finish(request_body)
-                        break
-                    else:
-                        raise e
+            with rx:
+                while not rx.writer_dropped:
+                    body += await rx.read(16 * 1024)
 
-            request_uri = request.path_with_query()
             if request_uri is None:
                 uri = "/"
             else:
                 uri = request_uri
     
             try:
-                simple_response = self.handle_request(Request(
+                simple_response = await self.handle_request(Request(
                     method_str,
                     uri,
-                    dict(map(lambda pair: (pair[0], str(pair[1], "utf-8")), request.headers().entries())),
+                    dict(map(lambda pair: (pair[0], str(pair[1], "utf-8")), headers)),
                     bytes(body)
                 ))
             except:
                 traceback.print_exc()
     
-                response = OutgoingResponse(Fields())
+                response = WasiResponse.new(Fields(), None, _trailers_future())[0]
                 response.set_status_code(500)
-                ResponseOutparam.set(response_out, Ok(response))
-                return
+                return response
 
             if simple_response.headers.get('content-length') is None:
                 content_length = len(simple_response.body) if simple_response.body is not None else 0
                 simple_response.headers['content-length'] = str(content_length)
 
-            response = OutgoingResponse(Fields.from_list(list(map(
+            tx, rx = wit.byte_stream()
+            componentize_py_async_support.spawn(copy(simple_response.body, tx))
+            response = WasiResponse.new(Fields.from_list(list(map(
                 lambda pair: (pair[0], bytes(pair[1], "utf-8")),
                 simple_response.headers.items()
-            ))))
-            response_body = response.body()
+            ))), rx, _trailers_future())[0]
+
             response.set_status_code(simple_response.status)
-            ResponseOutparam.set(response_out, Ok(response))
-            response_stream = response_body.write()
-            if simple_response.body is not None:
-                MAX_BLOCKING_WRITE_SIZE = 4096
-                offset = 0
-                while offset < len(simple_response.body):
-                    count = min(len(simple_response.body) - offset, MAX_BLOCKING_WRITE_SIZE)
-                    response_stream.blocking_write_and_flush(simple_response.body[offset:offset+count])
-                    offset += count
-            response_stream.__exit__(None, None, None)
-            OutgoingBody.finish(response_body, None)
+            return response
 
 except ImportError:
     # `spin_sdk.wit.exports` won't exist if the use is targeting `spin-imports`,
     # so just skip this part
     pass
 
-def send(request: Request) -> Response:
+async def send(request: Request) -> Response:
     """Send an HTTP request and return a response or raise an error"""
-    loop = PollLoop()
-    asyncio.set_event_loop(loop)
-    return loop.run_until_complete(send_async(request))
-    
-
-async def send_async(request: Request) -> Response:
     match request.method:
         case "GET":
             method: Method = Method_Get()
@@ -188,7 +167,9 @@ async def send_async(request: Request) -> Response:
         headers_dict.items()
     ))
 
-    outgoing_request = OutgoingRequest(Fields.from_list(headers))
+    tx, rx = wit.byte_stream()
+    componentize_py_async_support.spawn(copy(request.body, tx))
+    outgoing_request = WasiRequest.new(Fields.from_list(headers), rx, _trailers_future(), None)[0]
     outgoing_request.set_method(method)
     outgoing_request.set_scheme(scheme)
     if url_parsed.netloc == '':
@@ -206,33 +187,32 @@ async def send_async(request: Request) -> Response:
         path_and_query += '?' + url_parsed.query
     outgoing_request.set_path_with_query(path_and_query)
 
-    outgoing_body = request.body if request.body is not None else bytearray()
-    sink = Sink(outgoing_request.body())
-    incoming_response: IncomingResponse = (await asyncio.gather(
-        poll_loop.send(outgoing_request),
-        send_and_close(sink, outgoing_body)
-    ))[0]
+    incoming_response = await client.send(outgoing_request)
 
-    response_body = Stream(incoming_response.consume())
+    status = incoming_response.get_status_code()
+    headers = incoming_response.get_headers().copy_all()
+    rx, trailers = WasiResponse.consume_body(incoming_response, _unit_future())
     body = bytearray()
-    while True:
-        chunk = await response_body.next()
-        if chunk is None:
-            headers = incoming_response.headers()
-            simple_response = Response(
-                incoming_response.status(),
-                dict(map(
-                    lambda pair: (pair[0], str(pair[1], "utf-8")),
-                    headers.entries()
-                )),
-                bytes(body)
-            )
-            headers.__exit__(None, None, None)
-            incoming_response.__exit__(None, None, None)
-            return simple_response
-        else:
-            body += chunk
+    with rx:
+        while not rx.writer_dropped:
+            body += await rx.read(16 * 1024)
 
-async def send_and_close(sink: Sink, data: bytes):
-    await sink.send(data)
-    sink.close()
+    return Response(
+        status,
+        dict(map(
+            lambda pair: (pair[0], str(pair[1], "utf-8")),
+            headers
+        )),
+        bytes(body)
+    )
+
+async def copy(bytes:bytes, tx:ByteStreamWriter):
+    with tx:
+        if bytes is not None:
+            await tx.write_all(bytes)
+
+def _trailers_future() -> FutureReader[Result[Optional[Fields], ErrorCode]]:
+    return wit.result_option_wasi_http_types_0_3_0_rc_2026_03_15_fields_wasi_http_types_0_3_0_rc_2026_03_15_error_code_future(lambda: Ok(None))[1]
+
+def _unit_future() -> FutureReader[Result[None, ErrorCode]]:
+    return wit.result_unit_wasi_http_types_0_3_0_rc_2026_03_15_error_code_future(lambda: Ok(None))[1]

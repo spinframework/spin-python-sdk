@@ -29,7 +29,7 @@ spin build --up
 
 ```bash
 $ curl localhost:3000 
-Hello World    
+Hello from Python! 
 
 $ curl "localhost:3000/queryparams?foo=bar"
 bar

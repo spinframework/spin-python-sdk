@@ -17,7 +17,7 @@ router = Router(trim_last_slash=True)
 @router.route("/")
 def handle_index(uri: ParseResult, request: Request) -> Response:
     # Basic response for a basic request
-    return Response(200, {"content-type": "text/plain"}, b"Hello World")
+    return Response(200, {"content-type": "text/plain"}, b"Hello from Python!")
 
 
 # Try this one with `curl -XPOST -d "TEST" localhost:3000/post`
@@ -39,8 +39,8 @@ def handle_queryparams(uri: ParseResult, request: Request) -> Response:
     return Response(200, {"content-type": "text/plain"}, bytes(foo, "utf-8"))
 
 
-class WasiHttpIncomingHandler020(http.IncomingHandler):
-    def handle_request(self, request: Request) -> Response:
+class WasiHttpHandler030Rc20260315(http.Handler):
+    async def handle_request(self, request: Request) -> Response:
         # I need to parse the URI because the Request object in Spin
         # is in the form /path/to/thing?param1=val1&p2=v2#anchor
         # and we need just /path/to/thing

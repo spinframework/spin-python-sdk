@@ -7,87 +7,87 @@ to thread I/O through coroutines.
 
 import asyncio
 import hashlib
+import componentize_py_async_support
 
+from typing import Optional
+from componentize_py_types import Ok, Result
+from componentize_py_async_support.streams import ByteStreamWriter
+from componentize_py_async_support.futures import FutureReader
+from spin_sdk import wit
 from spin_sdk.wit import exports
-from componentize_py_types import Ok
-from spin_sdk.wit.imports import wasi_http_types_0_2_0 as types
-from spin_sdk.wit.imports.wasi_http_types_0_2_0 import (
-    Method_Get, Method_Post, Scheme, Scheme_Http, Scheme_Https, Scheme_Other, IncomingRequest, ResponseOutparam,
-    OutgoingResponse, Fields, OutgoingBody, OutgoingRequest
+from spin_sdk.wit.imports import wasi_http_client_0_3_0_rc_2026_03_15 as client
+from spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15 import (
+    Method_Get,
+    Method_Post,
+    Scheme,
+    Scheme_Http,
+    Scheme_Https,
+    Scheme_Other,
+    Request,
+    Response,
+    Fields,
+    ErrorCode
 )
-from spin_sdk.http import poll_loop
-from spin_sdk.http.poll_loop import Stream, Sink, PollLoop
-from typing import Tuple
 from urllib import parse
 
-class WasiHttpIncomingHandler020(exports.WasiHttpIncomingHandler020):
+
+class WasiHttpHandler030Rc20260315(exports.WasiHttpHandler030Rc20260315):
     """Implements the `export`ed portion of the `wasi-http` `proxy` world."""
 
-    def handle(self, request: IncomingRequest, response_out: ResponseOutparam):
-        """Handle the specified `request`, sending the response to `response_out`.
+    async def handle(self, request: Request) -> Response:
+        """Handle the specified `request`, returning a `Response`."""
+        
+        method = request.get_method()
+        path = request.get_path_with_query()
+        headers = request.get_headers().copy_all()
 
-        """
-        # Dispatch the request using `asyncio`, backed by a custom event loop
-        # based on WASI's `poll_oneoff` function.
-        loop = PollLoop()
-        asyncio.set_event_loop(loop)
-        loop.run_until_complete(handle_async(request, response_out))
+        if isinstance(method, Method_Get) and path == "/hash-all":
+            # Collect one or more "url" headers, download their contents
+            # concurrently, compute their SHA-256 hashes incrementally (i.e. without
+            # buffering the response bodies), and stream the results back to the
+            # client as they become available.
 
-async def handle_async(request: IncomingRequest, response_out: ResponseOutparam):
-    """Handle the specified `request`, sending the response to `response_out`."""
+            urls = list(map(
+                lambda pair: str(pair[1], "utf-8"),
+                filter(lambda pair: pair[0] == "url", headers),
+            ))
 
-    method = request.method()
-    path = request.path_with_query()
-    headers = request.headers().entries()
+            tx, rx = wit.byte_stream()
+            componentize_py_async_support.spawn(hash_all(urls, tx))
 
-    if isinstance(method, Method_Get) and path == "/hash-all":
-        # Collect one or more "url" headers, download their contents
-        # concurrently, compute their SHA-256 hashes incrementally (i.e. without
-        # buffering the response bodies), and stream the results back to the
-        # client as they become available.
+            return Response.new(
+                Fields.from_list([("content-type", b"text/plain")]),
+                rx,
+                trailers_future()
+            )[0]
 
-        urls = map(lambda pair: str(pair[1], "utf-8"), filter(lambda pair: pair[0] == "url", headers))
+        elif isinstance(method, Method_Post) and path == "/echo":
+            # Echo the request body back to the client without buffering.
 
-        response = OutgoingResponse(Fields.from_list([("content-type", b"text/plain")]))
+            rx, trailers = Request.consume_body(request, unit_future())
 
-        response_body = response.body()
+            return Response.new(
+                Fields.from_list(
+                    list(filter(lambda pair: pair[0] == "content-type", headers))
+                ),
+                rx,
+                trailers
+            )[0]
 
-        ResponseOutparam.set(response_out, Ok(response))
+        else:
+            response = Response.new(Fields(), None, trailers_future())[0]
+            response.set_status_code(400)
+            return response
 
-        sink = Sink(response_body)
+
+async def hash_all(urls: list[str], tx: ByteStreamWriter) -> None:
+    with tx:
         for result in asyncio.as_completed(map(sha256, urls)):
             url, sha = await result
-            await sink.send(bytes(f"{url}: {sha}\n", "utf-8"))
-
-        sink.close()
-
-    elif isinstance(method, Method_Post) and path == "/echo":
-        # Echo the request body back to the client without buffering.
-
-        response = OutgoingResponse(Fields.from_list(list(filter(lambda pair: pair[0] == "content-type", headers))))
-
-        response_body = response.body()
-
-        ResponseOutparam.set(response_out, Ok(response))
-
-        stream = Stream(request.consume())
-        sink = Sink(response_body)
-        while True:
-            chunk = await stream.next()
-            if chunk is None:
-                break
-            else:
-                await sink.send(chunk)
-
-        sink.close()
-    else:
-        response = OutgoingResponse(Fields.from_list([]))
-        response.set_status_code(400)
-        body = response.body()
-        ResponseOutparam.set(response_out, Ok(response))
-        OutgoingBody.finish(body, None)
-
-async def sha256(url: str) -> Tuple[str, str]:
+            await tx.write_all(bytes(f"{url}: {sha}\n", "utf-8"))
+            
+            
+async def sha256(url: str) -> tuple[str, str]:
     """Download the contents of the specified URL, computing the SHA-256
     incrementally as the response body arrives.
 
@@ -105,21 +105,30 @@ async def sha256(url: str) -> Tuple[str, str]:
         case _:
             scheme = Scheme_Other(url_parsed.scheme)
 
-    request = OutgoingRequest(Fields.from_list([]))
+    request = Request.new(Fields(), None, trailers_future(), None)[0]
     request.set_scheme(scheme)
     request.set_authority(url_parsed.netloc)
     request.set_path_with_query(url_parsed.path)
 
-    response = await poll_loop.send(request)
-    status = response.status()
+    response = await client.send(request)
+    status = response.get_status_code()
     if status < 200 or status > 299:
         return url, f"unexpected status: {status}"
 
-    stream = Stream(response.consume())
+    rx = Response.consume_body(response, unit_future())[0]
+    
     hasher = hashlib.sha256()
-    while True:
-        chunk = await stream.next()
-        if chunk is None:
-            return url, hasher.hexdigest()
-        else:
+    with rx:
+        while not rx.writer_dropped:
+            chunk = await rx.read(16 * 1024)
             hasher.update(chunk)
+
+    return url, hasher.hexdigest()
+
+
+def trailers_future() -> FutureReader[Result[Optional[Fields], ErrorCode]]:
+    return wit.result_option_wasi_http_types_0_3_0_rc_2026_03_15_fields_wasi_http_types_0_3_0_rc_2026_03_15_error_code_future(lambda: Ok(None))[1]
+
+
+def unit_future() -> FutureReader[Result[None, ErrorCode]]:
+    return wit.result_unit_wasi_http_types_0_3_0_rc_2026_03_15_error_code_future(lambda: Ok(None))[1]
