@@ -1,6 +1,8 @@
 """Module for accessing Spin key-value stores"""
 
-from spin_sdk.wit.imports.spin_key_value_key_value_3_0_0 import Store
+from spin_sdk.wit.imports import spin_key_value_key_value_3_0_0 as kv
+
+Store = kv.Store
 
 async def open(name: str) -> Store:
     """

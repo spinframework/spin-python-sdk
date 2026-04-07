@@ -1,3 +1,4 @@
+from typing import cast
 from spin_sdk import http   
 from spin_sdk.http import Request, Response
 import re
@@ -47,7 +48,7 @@ class WasiHttpHandler030Rc20260315(http.Handler):
         uri = urlparse(request.uri)
         try:
             handler = router(uri.path, request.method)
-            return handler.target(uri, request)
+            return cast(Response, handler.target(uri, request))
         except exceptions.NotFoundError:  
             return Response(404, {}, None)
 

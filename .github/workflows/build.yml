@@ -23,7 +23,7 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install componentize-py==0.22.0 http-router==4.1.2 build==1.4.2
+          pip install componentize-py==0.22.0 http-router==4.1.2 build==1.4.2 mypy==1.13
           python -m build
           pip install dist/spin_sdk-4.0.0-py3-none-any.whl
           bash run_tests.sh

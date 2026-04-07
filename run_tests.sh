@@ -2,6 +2,10 @@
 
 source venv/bin/activate
 
+# First, install any example-specific dependencies (common dependencies such as
+# `componentize-py`, `spin-sdk`, and `mypy` are assumed to have been installed
+# in the virtual environment).
+
 if [ ! -d examples/matrix-math/numpy ]
 then
   (cd examples/matrix-math \
@@ -9,14 +13,32 @@ then
      && tar xf numpy-wasi.tar.gz)
 fi
 
+# Next, run MyPy on all the examples
+
+for example in examples/*
+do
+  echo "linting $example"
+  if [ $example = "examples/matrix-math" ]
+  then
+    # NumPy fails linting as of this writing, so we skip it
+    extra_option="--follow-imports silent"
+  else
+    unset extra_option
+  fi
+  export MYPYPATH=$(pwd)/src
+  (cd $example && mypy --strict $extra_option -m app) || exit 1
+done
+
+# Next, build all the examples
+
 for example in examples/*
 do
   echo "building $example"
   (cd $example && spin build) || exit 1
 done
 
+# Finally, run some of the examples and test that they behave as expected
 
-# run trivial examples
 for example in examples/hello examples/external-lib-example examples/spin-kv examples/spin-variables
 do
   pushd $example

@@ -1,14 +1,15 @@
 from spin_sdk import http, postgres
 from spin_sdk.http import Request, Response
+from spin_sdk.postgres import RowSet, DbValue
 
 
-def format_value(db_value) -> str:
+def format_value(db_value: DbValue) -> str:
     if hasattr(db_value, "value"):
         return str(db_value.value)
     return "NULL"
 
 
-def format_rowset(rowset) -> str:
+def format_rowset(rowset: RowSet) -> str:
     lines = []
     col_names = [col.name for col in rowset.columns]
     lines.append(" | ".join(col_names))

@@ -2,7 +2,7 @@
 
 from spin_sdk.wit.imports import spin_variables_variables_3_0_0 as variables
 
-async def get(key: str):
+async def get(key: str) -> str:
     """
     Gets the value of the given key
     """

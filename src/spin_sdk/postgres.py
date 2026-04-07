@@ -1,6 +1,10 @@
 """Module for interacting with a Postgres database"""
 
-from spin_sdk.wit.imports.spin_postgres_postgres_4_2_0 import Connection
+from spin_sdk.wit.imports import spin_postgres_postgres_4_2_0 as pg
+
+Connection = pg.Connection
+RowSet = pg.RowSet
+DbValue = pg.DbValue
 
 async def open(connection_string: str) -> Connection:
     """
