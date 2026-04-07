@@ -206,6 +206,28 @@ async def send(request: Request) -> Response:
         bytes(body)
     )
 
+def strip_forbidden_headers(headers:MutableMapping[str, str]) -> MutableMapping[str, str]:
+    """
+    Strips forbidden headers for requests and responses originating from guest apps, per wasmtime/Spin
+    """
+    # See https://github.com/bytecodealliance/wasmtime/blob/e9e1665c5ef150d618bd8c21fb355c063596d6f7/crates/wasi-http/src/lib.rs#L42-L52
+    for header in [
+        "connection",
+        "keep-alive",
+        "proxy-authenticate",
+        "proxy-authorization",
+        "proxy-connection",
+        "transfer-encoding",
+        "upgrade",
+        "host",
+        "http2-settings"
+    ]:
+        try:
+            del headers[header]
+        except KeyError:
+            pass
+    return headers
+
 async def copy(bytes:bytes, tx:ByteStreamWriter):
     with tx:
         if bytes is not None:

@@ -1,4 +1,4 @@
-from spin_sdk import http   
+from spin_sdk import http
 from spin_sdk.http import Request, Response, send
 
 class WasiHttpHandler030Rc20260315(http.Handler):
@@ -12,4 +12,6 @@ class WasiHttpHandler030Rc20260315(http.Handler):
                 bytes("Please specify `url` header", "utf-8")
             )
 
-        return await send(Request("GET", url, {}, None))
+        resp = await send(Request("GET", url, {}, None))
+        resp.headers = http.strip_forbidden_headers(resp.headers)
+        return resp
