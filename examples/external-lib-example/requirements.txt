@@ -1,3 +1,3 @@
 spin-sdk == 4.0.0
-componentize-py == 0.22.0
+componentize-py == 0.22.1
 http-router == 4.1.2
