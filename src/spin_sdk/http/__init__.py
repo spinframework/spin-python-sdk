@@ -34,7 +34,7 @@ class Response:
 
 try:
     from spin_sdk.wit import exports
-    from spin_sdk.wit.exports import WasiHttpHandler030Rc20260315 as Base
+    from spin_sdk.wit.exports import HttpHandler as Base
     
     class Handler(Base):
         """Simplified handler for incoming HTTP requests using blocking, buffered I/O."""

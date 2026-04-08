@@ -1,7 +1,7 @@
 from spin_sdk import http, variables  
 from spin_sdk.http import Request, Response
 
-class WasiHttpHandler030Rc20260315(http.Handler):
+class HttpHandler(http.Handler):
     async def handle_request(self, request: Request) -> Response:
         print(await variables.get("message"))
         return Response(

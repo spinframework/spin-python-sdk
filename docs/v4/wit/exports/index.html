@@ -44,13 +44,13 @@ el.replaceWith(d);
 <dd>
 <div class="desc"></div>
 </dd>
-<dt><code class="name"><a title="spin_sdk.wit.exports.spin_redis_inbound_redis_3_0_0" href="spin_redis_inbound_redis_3_0_0.html">spin_sdk.wit.exports.spin_redis_inbound_redis_3_0_0</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="spin_sdk.wit.exports.wasi_http_handler_0_3_0_rc_2026_03_15" href="wasi_http_handler_0_3_0_rc_2026_03_15.html">spin_sdk.wit.exports.wasi_http_handler_0_3_0_rc_2026_03_15</a></code></dt>
+<dt><code class="name"><a title="spin_sdk.wit.exports.http_handler" href="http_handler.html">spin_sdk.wit.exports.http_handler</a></code></dt>
 <dd>
 <div class="desc"><p>This interface defines a handler of HTTP Requests …</p></div>
+</dd>
+<dt><code class="name"><a title="spin_sdk.wit.exports.redis_handler" href="redis_handler.html">spin_sdk.wit.exports.redis_handler</a></code></dt>
+<dd>
+<div class="desc"></div>
 </dd>
 <dt><code class="name"><a title="spin_sdk.wit.exports.wasi_http_incoming_handler_0_2_0" href="wasi_http_incoming_handler_0_2_0.html">spin_sdk.wit.exports.wasi_http_incoming_handler_0_2_0</a></code></dt>
 <dd>
@@ -141,8 +141,8 @@ def handle_message(self, message: bytes) -&gt; None:
 </dd>
 </dl>
 </dd>
-<dt id="spin_sdk.wit.exports.SpinRedisInboundRedis300"><code class="flex name class">
-<span>class <span class="ident">SpinRedisInboundRedis300</span></span>
+<dt id="spin_sdk.wit.exports.HttpHandler"><code class="flex name class">
+<span>class <span class="ident">HttpHandler</span></span>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
@@ -150,82 +150,7 @@ def handle_message(self, message: bytes) -&gt; None:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class SpinRedisInboundRedis300(Protocol):
-
-    @abstractmethod
-    async def handle_message(self, message: bytes) -&gt; None:
-        &#34;&#34;&#34;
-        The entrypoint for a Redis handler.
-        
-        Raises: `componentize_py_types.Err(spin_sdk.wit.imports.spin_redis_redis_3_0_0.Error)`
-        &#34;&#34;&#34;
-        raise NotImplementedError</code></pre>
-</details>
-<div class="desc"><p>Base class for protocol classes.</p>
-<p>Protocol classes are defined as::</p>
-<pre><code>class Proto(Protocol):
-    def meth(self) -&gt; int:
-        ...
-</code></pre>
-<p>Such classes are primarily used with static type checkers that recognize
-structural subtyping (static duck-typing).</p>
-<p>For example::</p>
-<pre><code>class C:
-    def meth(self) -&gt; int:
-        return 0
-
-def func(x: Proto) -&gt; int:
-    return x.meth()
-
-func(C())  # Passes static type check
-</code></pre>
-<p>See PEP 544 for details. Protocol classes decorated with
-@typing.runtime_checkable act as simple-minded runtime protocols that check
-only the presence of given attributes, ignoring their type signatures.
-Protocol classes can be generic, they are defined as::</p>
-<pre><code>class GenProto[T](Protocol):
-    def meth(self) -&gt; T:
-        ...
-</code></pre></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>typing.Protocol</li>
-<li>typing.Generic</li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="spin_sdk.wit.exports.SpinRedisInboundRedis300.handle_message"><code class="name flex">
-<span>async def <span class="ident">handle_message</span></span>(<span>self, message: bytes) ‑> None</span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@abstractmethod
-async def handle_message(self, message: bytes) -&gt; None:
-    &#34;&#34;&#34;
-    The entrypoint for a Redis handler.
-    
-    Raises: `componentize_py_types.Err(spin_sdk.wit.imports.spin_redis_redis_3_0_0.Error)`
-    &#34;&#34;&#34;
-    raise NotImplementedError</code></pre>
-</details>
-<div class="desc"><p>The entrypoint for a Redis handler.</p>
-<p>Raises: <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_redis_redis_3_0_0.Error" href="../imports/spin_redis_redis_3_0_0.html#spin_sdk.wit.imports.spin_redis_redis_3_0_0.Error">Error</a>)</code></p></div>
-</dd>
-</dl>
-</dd>
-<dt id="spin_sdk.wit.exports.WasiHttpHandler030Rc20260315"><code class="flex name class">
-<span>class <span class="ident">WasiHttpHandler030Rc20260315</span></span>
-<span>(</span><span>*args, **kwargs)</span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class WasiHttpHandler030Rc20260315(Protocol):
+<pre><code class="python">class HttpHandler(Protocol):
 
     @abstractmethod
     async def handle(self, request: wasi_http_types_0_3_0_rc_2026_03_15.Request) -&gt; wasi_http_types_0_3_0_rc_2026_03_15.Response:
@@ -274,7 +199,7 @@ Protocol classes can be generic, they are defined as::</p>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="spin_sdk.wit.exports.WasiHttpHandler030Rc20260315.handle"><code class="name flex">
+<dt id="spin_sdk.wit.exports.HttpHandler.handle"><code class="name flex">
 <span>async def <span class="ident">handle</span></span>(<span>self,<br>request: <a title="spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.Request" href="../imports/wasi_http_types_0_3_0_rc_2026_03_15.html#spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.Request">Request</a>) ‑> <a title="spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.Response" href="../imports/wasi_http_types_0_3_0_rc_2026_03_15.html#spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.Response">Response</a></span>
 </code></dt>
 <dd>
@@ -295,6 +220,81 @@ async def handle(self, request: wasi_http_types_0_3_0_rc_2026_03_15.Request) -&g
 <div class="desc"><p>This function may be called with either an incoming request read from the
 network or a request synthesized or forwarded by another component.</p>
 <p>Raises: <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.ErrorCode" href="../imports/wasi_http_types_0_3_0_rc_2026_03_15.html#spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.ErrorCode">ErrorCode</a>)</code></p></div>
+</dd>
+</dl>
+</dd>
+<dt id="spin_sdk.wit.exports.RedisHandler"><code class="flex name class">
+<span>class <span class="ident">RedisHandler</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RedisHandler(Protocol):
+
+    @abstractmethod
+    async def handle_message(self, message: bytes) -&gt; None:
+        &#34;&#34;&#34;
+        The entrypoint for a Redis handler.
+        
+        Raises: `componentize_py_types.Err(spin_sdk.wit.imports.spin_redis_redis_3_0_0.Error)`
+        &#34;&#34;&#34;
+        raise NotImplementedError</code></pre>
+</details>
+<div class="desc"><p>Base class for protocol classes.</p>
+<p>Protocol classes are defined as::</p>
+<pre><code>class Proto(Protocol):
+    def meth(self) -&gt; int:
+        ...
+</code></pre>
+<p>Such classes are primarily used with static type checkers that recognize
+structural subtyping (static duck-typing).</p>
+<p>For example::</p>
+<pre><code>class C:
+    def meth(self) -&gt; int:
+        return 0
+
+def func(x: Proto) -&gt; int:
+    return x.meth()
+
+func(C())  # Passes static type check
+</code></pre>
+<p>See PEP 544 for details. Protocol classes decorated with
+@typing.runtime_checkable act as simple-minded runtime protocols that check
+only the presence of given attributes, ignoring their type signatures.
+Protocol classes can be generic, they are defined as::</p>
+<pre><code>class GenProto[T](Protocol):
+    def meth(self) -&gt; T:
+        ...
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="spin_sdk.wit.exports.RedisHandler.handle_message"><code class="name flex">
+<span>async def <span class="ident">handle_message</span></span>(<span>self, message: bytes) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+async def handle_message(self, message: bytes) -&gt; None:
+    &#34;&#34;&#34;
+    The entrypoint for a Redis handler.
+    
+    Raises: `componentize_py_types.Err(spin_sdk.wit.imports.spin_redis_redis_3_0_0.Error)`
+    &#34;&#34;&#34;
+    raise NotImplementedError</code></pre>
+</details>
+<div class="desc"><p>The entrypoint for a Redis handler.</p>
+<p>Raises: <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.spin_redis_redis_3_0_0.Error" href="../imports/spin_redis_redis_3_0_0.html#spin_sdk.wit.imports.spin_redis_redis_3_0_0.Error">Error</a>)</code></p></div>
 </dd>
 </dl>
 </dd>
@@ -410,8 +410,8 @@ with an error on its behalf.</p></div>
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
 <li><code><a title="spin_sdk.wit.exports.fermyon_spin_inbound_redis" href="fermyon_spin_inbound_redis.html">spin_sdk.wit.exports.fermyon_spin_inbound_redis</a></code></li>
-<li><code><a title="spin_sdk.wit.exports.spin_redis_inbound_redis_3_0_0" href="spin_redis_inbound_redis_3_0_0.html">spin_sdk.wit.exports.spin_redis_inbound_redis_3_0_0</a></code></li>
-<li><code><a title="spin_sdk.wit.exports.wasi_http_handler_0_3_0_rc_2026_03_15" href="wasi_http_handler_0_3_0_rc_2026_03_15.html">spin_sdk.wit.exports.wasi_http_handler_0_3_0_rc_2026_03_15</a></code></li>
+<li><code><a title="spin_sdk.wit.exports.http_handler" href="http_handler.html">spin_sdk.wit.exports.http_handler</a></code></li>
+<li><code><a title="spin_sdk.wit.exports.redis_handler" href="redis_handler.html">spin_sdk.wit.exports.redis_handler</a></code></li>
 <li><code><a title="spin_sdk.wit.exports.wasi_http_incoming_handler_0_2_0" href="wasi_http_incoming_handler_0_2_0.html">spin_sdk.wit.exports.wasi_http_incoming_handler_0_2_0</a></code></li>
 </ul>
 </li>
@@ -424,15 +424,15 @@ with an error on its behalf.</p></div>
 </ul>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.exports.SpinRedisInboundRedis300" href="#spin_sdk.wit.exports.SpinRedisInboundRedis300">SpinRedisInboundRedis300</a></code></h4>
+<h4><code><a title="spin_sdk.wit.exports.HttpHandler" href="#spin_sdk.wit.exports.HttpHandler">HttpHandler</a></code></h4>
 <ul class="">
-<li><code><a title="spin_sdk.wit.exports.SpinRedisInboundRedis300.handle_message" href="#spin_sdk.wit.exports.SpinRedisInboundRedis300.handle_message">handle_message</a></code></li>
+<li><code><a title="spin_sdk.wit.exports.HttpHandler.handle" href="#spin_sdk.wit.exports.HttpHandler.handle">handle</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="spin_sdk.wit.exports.WasiHttpHandler030Rc20260315" href="#spin_sdk.wit.exports.WasiHttpHandler030Rc20260315">WasiHttpHandler030Rc20260315</a></code></h4>
+<h4><code><a title="spin_sdk.wit.exports.RedisHandler" href="#spin_sdk.wit.exports.RedisHandler">RedisHandler</a></code></h4>
 <ul class="">
-<li><code><a title="spin_sdk.wit.exports.WasiHttpHandler030Rc20260315.handle" href="#spin_sdk.wit.exports.WasiHttpHandler030Rc20260315.handle">handle</a></code></li>
+<li><code><a title="spin_sdk.wit.exports.RedisHandler.handle_message" href="#spin_sdk.wit.exports.RedisHandler.handle_message">handle_message</a></code></li>
 </ul>
 </li>
 <li>

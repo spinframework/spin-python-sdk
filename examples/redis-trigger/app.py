@@ -1,5 +1,5 @@
 from spin_sdk.wit import exports
 
-class SpinRedisInboundRedis300(exports.SpinRedisInboundRedis300):
+class RedisHandler(exports.RedisHandler):
     async def handle_message(self, message: bytes) -> None:
         print(message)

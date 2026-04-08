@@ -14,6 +14,18 @@ import componentize_py_async_support
 from componentize_py_async_support.streams import StreamReader, StreamWriter, ByteStreamReader, ByteStreamWriter
 from componentize_py_async_support.futures import FutureReader, FutureWriter
 
+class FermyonSpinInboundRedis(Protocol):
+
+    @abstractmethod
+    def handle_message(self, message: bytes) -> None:
+        """
+        The entrypoint for a Redis handler.
+        
+        Raises: `componentize_py_types.Err(spin_sdk.wit.imports.fermyon_spin_redis_types.Error)`
+        """
+        raise NotImplementedError
+
+
 class WasiHttpIncomingHandler020(Protocol):
 
     @abstractmethod
@@ -33,19 +45,19 @@ class WasiHttpIncomingHandler020(Protocol):
         raise NotImplementedError
 
 
-class FermyonSpinInboundRedis(Protocol):
+class RedisHandler(Protocol):
 
     @abstractmethod
-    def handle_message(self, message: bytes) -> None:
+    async def handle_message(self, message: bytes) -> None:
         """
         The entrypoint for a Redis handler.
         
-        Raises: `componentize_py_types.Err(spin_sdk.wit.imports.fermyon_spin_redis_types.Error)`
+        Raises: `componentize_py_types.Err(spin_sdk.wit.imports.spin_redis_redis_3_0_0.Error)`
         """
         raise NotImplementedError
 
 
-class WasiHttpHandler030Rc20260315(Protocol):
+class HttpHandler(Protocol):
 
     @abstractmethod
     async def handle(self, request: wasi_http_types_0_3_0_rc_2026_03_15.Request) -> wasi_http_types_0_3_0_rc_2026_03_15.Response:
@@ -54,18 +66,6 @@ class WasiHttpHandler030Rc20260315(Protocol):
         network or a request synthesized or forwarded by another component.
         
         Raises: `componentize_py_types.Err(spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.ErrorCode)`
-        """
-        raise NotImplementedError
-
-
-class SpinRedisInboundRedis300(Protocol):
-
-    @abstractmethod
-    async def handle_message(self, message: bytes) -> None:
-        """
-        The entrypoint for a Redis handler.
-        
-        Raises: `componentize_py_types.Err(spin_sdk.wit.imports.spin_redis_redis_3_0_0.Error)`
         """
         raise NotImplementedError
 

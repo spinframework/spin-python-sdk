@@ -31,7 +31,7 @@ from spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15 import (
 from urllib import parse
 
 
-class WasiHttpHandler030Rc20260315(exports.WasiHttpHandler030Rc20260315):
+class HttpHandler(exports.HttpHandler):
     """Implements the `export`ed portion of the `wasi-http` `proxy` world."""
 
     async def handle(self, request: Request) -> Response:
