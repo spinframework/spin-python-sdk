@@ -6,7 +6,7 @@ Note that this SDK supersedes an earlier, experimental version, which may be
 found in the [old-sdk](https://github.com/spinframework/spin-python-sdk/tree/old-sdk)
 branch.
 
-## [API Documentation](https://spinframework.github.io/spin-python-sdk/v3/index.html)
+## [API Documentation](https://spinframework.github.io/spin-python-sdk/v4/index.html)
 
 ## Example
 
