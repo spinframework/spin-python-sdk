@@ -28,7 +28,7 @@ spin build --up
 ## Testing the App
 
 ```
-curl -i -H 'content-type: text/plain' --data-binary @- http://127.0.0.1:8080/echo <<EOF
+curl -i -H 'content-type: text/plain' --data-binary @- http://127.0.0.1:3000/echo <<EOF
 ’Twas brillig, and the slithy toves
       Did gyre and gimble in the wabe:
 All mimsy were the borogoves,
@@ -47,7 +47,7 @@ curl -i \
     -H 'url: https://webassembly.github.io/spec/core/' \
     -H 'url: https://www.w3.org/groups/wg/wasm/' \
     -H 'url: https://bytecodealliance.org/' \
-    http://127.0.0.1:8080/hash-all
+    http://127.0.0.1:3000/hash-all
 ```
 
 If you run into any problems, please file an issue!
