@@ -1,3 +1,7 @@
 wit_directory = "wit"
 bindings = "wit"
 full_names = true
+
+[export_interface_names]
+"wasi:http/handler@0.3.0-rc-2026-03-15" = "http-handler"
+"spin:redis/inbound-redis@3.0.0" = "redis-handler"

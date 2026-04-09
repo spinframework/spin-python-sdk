@@ -13,9 +13,9 @@ from abc import abstractmethod
 import weakref
 
 from componentize_py_types import Result, Ok, Err, Some
-from ..imports import wasi_io_streams_0_2_0
-from ..imports import wasi_io_poll_0_2_0
 from ..imports import wasi_io_error_0_2_0
+from ..imports import wasi_io_poll_0_2_0
+from ..imports import wasi_io_streams_0_2_0
 import componentize_py_async_support
 from componentize_py_async_support.streams import StreamReader, StreamWriter, ByteStreamReader, ByteStreamWriter
 from componentize_py_async_support.futures import FutureReader, FutureWriter

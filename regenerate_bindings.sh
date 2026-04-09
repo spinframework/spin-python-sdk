@@ -7,6 +7,8 @@ componentize-py \
     -w "wasi:http/service@0.3.0-rc-2026-03-15" \
     -w "fermyon:spin/http-trigger@3.0.0" \
     -w "fermyon:spin/redis-trigger" \
+    --export-interface-name "wasi:http/handler@0.3.0-rc-2026-03-15=http-handler" \
+    --export-interface-name "spin:redis/inbound-redis@3.0.0=redis-handler" \
     --world-module spin_sdk.wit \
     --full-names \
     bindings \

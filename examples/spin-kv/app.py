@@ -2,7 +2,7 @@ from spin_sdk import http, key_value, util
 from spin_sdk.http import Request, Response
 from spin_sdk.key_value import Store
 
-class WasiHttpHandler030Rc20260315(http.Handler):
+class HttpHandler(http.Handler):
     async def handle_request(self, request: Request) -> Response:
         with await key_value.open_default() as a:
             await a.set("test", bytes("hello world!", "utf-8"))

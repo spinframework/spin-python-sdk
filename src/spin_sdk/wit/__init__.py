@@ -10,13 +10,13 @@ from abc import abstractmethod
 import weakref
 
 from componentize_py_types import Result, Ok, Err, Some
-from .imports import wasi_sockets_types_0_3_0_rc_2026_03_15
 from .imports import spin_key_value_key_value_3_0_0
 from .imports import spin_postgres_postgres_4_2_0
 from .imports import spin_sqlite_sqlite_3_1_0
-from .imports import wasi_http_types_0_3_0_rc_2026_03_15
 from .imports import wasi_filesystem_types_0_3_0_rc_2026_03_15
+from .imports import wasi_sockets_types_0_3_0_rc_2026_03_15
 from .imports import wasi_cli_types_0_3_0_rc_2026_03_15
+from .imports import wasi_http_types_0_3_0_rc_2026_03_15
 import componentize_py_async_support
 from componentize_py_async_support.streams import StreamReader, StreamWriter, ByteStreamReader, ByteStreamWriter
 from componentize_py_async_support.futures import FutureReader, FutureWriter

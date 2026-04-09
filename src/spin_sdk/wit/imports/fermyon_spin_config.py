@@ -34,9 +34,7 @@ class Error_Other:
 
 
 Error = Union[Error_Provider, Error_InvalidKey, Error_InvalidSchema, Error_Other]
-"""
-The set of errors which may be raised by functions in this interface
-"""
+
 
 
 def get_config(key: str) -> str:

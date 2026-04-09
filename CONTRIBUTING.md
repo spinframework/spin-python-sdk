@@ -4,12 +4,12 @@
 
 - Python
 - `pip`
-- `componentize-py` 0.22.0
+- `componentize-py` 0.22.1
 
 Once you have `pip` installed, you can install `componentize-py` using:
 
 ```bash
-pip install componentize-py==0.22.0
+pip install componentize-py==0.22.1
 ```
 
 ### Generating the bindings

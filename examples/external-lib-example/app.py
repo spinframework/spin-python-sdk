@@ -40,7 +40,7 @@ def handle_queryparams(uri: ParseResult, request: Request) -> Response:
     return Response(200, {"content-type": "text/plain"}, bytes(foo, "utf-8"))
 
 
-class WasiHttpHandler030Rc20260315(http.Handler):
+class HttpHandler(http.Handler):
     async def handle_request(self, request: Request) -> Response:
         # I need to parse the URI because the Request object in Spin
         # is in the form /path/to/thing?param1=val1&p2=v2#anchor
