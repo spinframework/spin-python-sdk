@@ -1,13 +1,11 @@
-from spin_sdk import http, postgres
+from spin_sdk import http, postgres, util
 from spin_sdk.http import Request, Response
-from spin_sdk.postgres import RowSet, DbValue
-
+from spin_sdk.postgres import Connection, RowSet, DbValue
 
 def format_value(db_value: DbValue) -> str:
     if hasattr(db_value, "value"):
         return str(db_value.value)
     return "NULL"
-
 
 def format_rowset(rowset: RowSet) -> str:
     lines = []
@@ -19,11 +17,12 @@ def format_rowset(rowset: RowSet) -> str:
         lines.append(" | ".join(values))
     return "\n".join(lines)
 
-
 class HttpHandler(http.Handler):
     async def handle_request(self, request: Request) -> Response:
-        with await postgres.open("user=postgres dbname=spin_dev host=localhost sslmode=disable password=password") as db:
-            rowset = db.query("SELECT * FROM test", [])
+        with await Connection.open("user=postgres dbname=spin_dev host=localhost sslmode=disable password=password") as db:
+            columns, stream, future = await db.query("SELECT * FROM test", [])
+            rows = await util.collect((stream, future))
+            rowset = RowSet(columns, list(rows))
             result = format_rowset(rowset)
 
         return Response(200, {"content-type": "text/plain"}, bytes(result, "utf-8"))
