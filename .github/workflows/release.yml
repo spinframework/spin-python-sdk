@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  push:
+    tags: v*
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: pypi
+    # Using OIDC/Trusted Publisher: https://docs.pypi.org/trusted-publishers/using-a-publisher/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build distribution
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade build
+          python -m build
+
+      - name: Publish distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1.14
