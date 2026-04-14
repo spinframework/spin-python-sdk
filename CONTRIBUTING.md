@@ -1,4 +1,4 @@
-## Building
+  ## Building
 
 ### Prerequisites
 
@@ -24,13 +24,7 @@ bash regenerate_bindings.sh
 
 ### Updating docs
 
-Any time you regenerate the bindings or edit files by hand, you'll want to
-regenerate the HTML docs to match.  First, install `pdoc` using `pip install
-pdoc3`.  Then, update the docs using:
-
-```bash
-./scripts/generate_docs.py
-```
+Docs are [updated automatically](.github/workflows/docs.yml) on merges to main and tag pushes.
 
 ### Building the distribution
 

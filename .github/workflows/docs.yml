@@ -27,7 +27,9 @@ jobs:
           fi
 
       - name: Generate Documentation
-        run: ./scripts/generate-docs.py ${{ steps.version.outputs.folder }}
+        run: |
+          pip install pdoc3
+          ./scripts/generate_docs.py ${{ steps.version.outputs.folder }}
 
       - name: Deploy to versioned folder
         uses: JamesIves/github-pages-deploy-action@v4

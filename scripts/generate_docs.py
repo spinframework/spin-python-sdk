@@ -38,3 +38,26 @@ shutil.move('html/spin_sdk', os.path.join('..', target_docs_path))
 # Remove the 'src/html' directory
 os.rmdir('html')
 os.chdir('..')
+
+# Generate a redirect index.html at the root of the docs folder
+root_index_path = os.path.join(script_dir, '..', 'docs', 'index.html')
+
+redirect_content = f"""<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="refresh" content="0; url={version_folder}/" />
+    <script type="text/javascript">
+      window.location.href = "{version_folder}/"
+    </script>
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <p>If you are not redirected, <a href="{version_folder}/">click here</a>.</p>
+  </body>
+</html>
+"""
+
+# Only update the root redirect if we are building a major version (not canary)
+if version_folder.startswith('v'):
+    with open(root_index_path, 'w') as f:
+        f.write(redirect_content)
