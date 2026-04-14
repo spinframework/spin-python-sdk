@@ -2,10 +2,13 @@
 
 import os
 import shutil
+import sys
 
-# Get the current script's directory
+# Get the version from command line arguments (e.g., 'v4' or 'canary')
+# Default to 'canary' if no argument is provided
+version_folder = sys.argv[1] if len(sys.argv) > 1 else 'canary'
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
-
 wit_module = os.path.join('src', 'spin_sdk', 'wit', '__init__.py')
 expected_doc_comment = '""" Module with the bindings generated from the wit by componentize-py """\n\n'
 
@@ -19,8 +22,11 @@ if expected_doc_comment not in content:
 # Change to the root directory of the project
 os.chdir(os.path.join(script_dir, '..'))
 
-# Remove the 'docs/v4' directory
-shutil.rmtree(os.path.join('docs', 'v4'), ignore_errors=True)
+# Use the dynamic version_folder for the target directory
+target_docs_path = os.path.join('docs', version_folder)
+
+# Clean existing folder for this specific version
+shutil.rmtree(target_docs_path, ignore_errors=True)
 
 # Change directory to 'src' and generate HTML documentation using pdoc
 os.chdir('src')
@@ -31,5 +37,4 @@ shutil.move('html/spin_sdk', os.path.join('..', target_docs_path))
 
 # Remove the 'src/html' directory
 os.rmdir('html')
-
 os.chdir('..')
