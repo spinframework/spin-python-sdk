@@ -26,8 +26,8 @@ shutil.rmtree(os.path.join('docs', 'v4'), ignore_errors=True)
 os.chdir('src')
 os.system('pdoc --html spin_sdk')
 
-# Move the generated documentation to the 'docs' directory
-shutil.move('html/spin_sdk', os.path.join('..', 'docs', 'v4'))
+# Move the generated documentation to the versioned directory
+shutil.move('html/spin_sdk', os.path.join('..', target_docs_path))
 
 # Remove the 'src/html' directory
 os.rmdir('html')

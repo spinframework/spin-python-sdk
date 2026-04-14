@@ -1,0 +1,38 @@
+name: Build and Deploy Docs
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Parse version
+        id: version
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            # Parse the major version
+            TAG="${{ github.ref_name }}"
+            echo "folder=${TAG%%.*}" >> $GITHUB_OUTPUT
+          else
+            # Default for pushes to main
+            echo "folder=canary" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate Documentation
+        run: ./scripts/generate-docs.py ${{ steps.version.outputs.folder }}
+
+      - name: Deploy to versioned folder
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: docs
+          target-folder: docs
+          clean: false
