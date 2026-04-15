@@ -1,4 +1,3 @@
-docs/** linguist-generated=true
 src/spin_sdk/wit/** linguist-generated=true
 src/componentize_py_* linguist-generated=true
 src/componentize_py_*/** linguist-generated=true
