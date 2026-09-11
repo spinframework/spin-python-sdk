@@ -1,9 +1,9 @@
-package spin:up@4.0.0;
+package spin:up@4.1.0;
 
 /// The full world of a guest targeting an http-trigger
 world http-trigger {
   include platform;
-  export wasi:http/handler@0.3.0-rc-2026-03-15;
+  export wasi:http/handler@0.3.0;
 }
 
 /// The full world of a guest targeting a redis-trigger
@@ -16,14 +16,17 @@ world redis-trigger {
 world platform {
   include wasi:cli/imports@0.2.6;
   include wasi:cli/imports@0.3.0-rc-2026-03-15;
+  include wasi:cli/imports@0.3.0;
   import wasi:http/outgoing-handler@0.2.6;
   import wasi:http/client@0.3.0-rc-2026-03-15;
+  import wasi:http/client@0.3.0;
   @unstable(feature = wasi-otel)
   include wasi:otel/imports@0.2.0-rc.2;
   include fermyon:spin/platform@2.0.0;
   include wasi:keyvalue/imports@0.2.0-draft2;
   import spin:key-value/key-value@3.0.0;
   import spin:mqtt/mqtt@3.0.0;
+  import spin:mysql/mysql@3.0.0;
   import spin:postgres/postgres@3.0.0;
   import spin:postgres/postgres@4.2.0;
   import spin:redis/redis@3.0.0;

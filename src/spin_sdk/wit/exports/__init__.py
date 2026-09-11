@@ -9,7 +9,7 @@ import weakref
 
 from componentize_py_types import Result, Ok, Err, Some
 from ..imports import wasi_http_types_0_2_0
-from ..imports import wasi_http_types_0_3_0_rc_2026_03_15
+from ..imports import wasi_http_types_0_3_0
 import componentize_py_async_support
 from componentize_py_async_support.streams import StreamReader, StreamWriter, ByteStreamReader, ByteStreamWriter
 from componentize_py_async_support.futures import FutureReader, FutureWriter
@@ -60,12 +60,12 @@ class RedisHandler(Protocol):
 class HttpHandler(Protocol):
 
     @abstractmethod
-    async def handle(self, request: wasi_http_types_0_3_0_rc_2026_03_15.Request) -> wasi_http_types_0_3_0_rc_2026_03_15.Response:
+    async def handle(self, request: wasi_http_types_0_3_0.Request) -> wasi_http_types_0_3_0.Response:
         """
         This function may be called with either an incoming request read from the
         network or a request synthesized or forwarded by another component.
         
-        Raises: `componentize_py_types.Err(spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.ErrorCode)`
+        Raises: `componentize_py_types.Err(spin_sdk.wit.imports.wasi_http_types_0_3_0.ErrorCode)`
         """
         raise NotImplementedError
 
