@@ -153,12 +153,12 @@ def handle_message(self, message: bytes) -&gt; None:
 <pre><code class="python">class HttpHandler(Protocol):
 
     @abstractmethod
-    async def handle(self, request: wasi_http_types_0_3_0_rc_2026_03_15.Request) -&gt; wasi_http_types_0_3_0_rc_2026_03_15.Response:
+    async def handle(self, request: wasi_http_types_0_3_0.Request) -&gt; wasi_http_types_0_3_0.Response:
         &#34;&#34;&#34;
         This function may be called with either an incoming request read from the
         network or a request synthesized or forwarded by another component.
         
-        Raises: `componentize_py_types.Err(spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.ErrorCode)`
+        Raises: `componentize_py_types.Err(spin_sdk.wit.imports.wasi_http_types_0_3_0.ErrorCode)`
         &#34;&#34;&#34;
         raise NotImplementedError</code></pre>
 </details>
@@ -200,7 +200,7 @@ Protocol classes can be generic, they are defined as::</p>
 <h3>Methods</h3>
 <dl>
 <dt id="spin_sdk.wit.exports.HttpHandler.handle"><code class="name flex">
-<span>async def <span class="ident">handle</span></span>(<span>self,<br>request: <a title="spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.Request" href="../imports/wasi_http_types_0_3_0_rc_2026_03_15.html#spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.Request">Request</a>) ‑> <a title="spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.Response" href="../imports/wasi_http_types_0_3_0_rc_2026_03_15.html#spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.Response">Response</a></span>
+<span>async def <span class="ident">handle</span></span>(<span>self,<br>request: <a title="spin_sdk.wit.imports.wasi_http_types_0_3_0.Request" href="../imports/wasi_http_types_0_3_0.html#spin_sdk.wit.imports.wasi_http_types_0_3_0.Request">Request</a>) ‑> <a title="spin_sdk.wit.imports.wasi_http_types_0_3_0.Response" href="../imports/wasi_http_types_0_3_0.html#spin_sdk.wit.imports.wasi_http_types_0_3_0.Response">Response</a></span>
 </code></dt>
 <dd>
 <details class="source">
@@ -208,18 +208,18 @@ Protocol classes can be generic, they are defined as::</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@abstractmethod
-async def handle(self, request: wasi_http_types_0_3_0_rc_2026_03_15.Request) -&gt; wasi_http_types_0_3_0_rc_2026_03_15.Response:
+async def handle(self, request: wasi_http_types_0_3_0.Request) -&gt; wasi_http_types_0_3_0.Response:
     &#34;&#34;&#34;
     This function may be called with either an incoming request read from the
     network or a request synthesized or forwarded by another component.
     
-    Raises: `componentize_py_types.Err(spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.ErrorCode)`
+    Raises: `componentize_py_types.Err(spin_sdk.wit.imports.wasi_http_types_0_3_0.ErrorCode)`
     &#34;&#34;&#34;
     raise NotImplementedError</code></pre>
 </details>
 <div class="desc"><p>This function may be called with either an incoming request read from the
 network or a request synthesized or forwarded by another component.</p>
-<p>Raises: <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.ErrorCode" href="../imports/wasi_http_types_0_3_0_rc_2026_03_15.html#spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15.ErrorCode">ErrorCode</a>)</code></p></div>
+<p>Raises: <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.wasi_http_types_0_3_0.ErrorCode" href="../imports/wasi_http_types_0_3_0.html#spin_sdk.wit.imports.wasi_http_types_0_3_0.ErrorCode">ErrorCode</a>)</code></p></div>
 </dd>
 </dl>
 </dd>

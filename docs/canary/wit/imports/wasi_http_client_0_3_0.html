@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.6">
-<title>spin_sdk.mysql API documentation</title>
-<meta name="description" content="Module for interacting with a MySQL database">
+<title>spin_sdk.wit.imports.wasi_http_client_0_3_0 API documentation</title>
+<meta name="description" content="This interface defines an HTTP client for sending &#34;outgoing&#34; requests …">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -33,10 +33,17 @@ el.replaceWith(d);
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>spin_sdk.mysql</code></h1>
+<h1 class="title">Module <code>spin_sdk.wit.imports.wasi_http_client_0_3_0</code></h1>
 </header>
 <section id="section-intro">
-<p>Module for interacting with a MySQL database</p>
+<p>This interface defines an HTTP client for sending "outgoing" requests.</p>
+<p>Most components are expected to import this interface to provide the
+capability to send HTTP requests to arbitrary destinations on a network.</p>
+<p>The type signature of <code>client.send</code> is the same as <code>handler.handle</code>. This
+duplication is currently necessary because some Component Model tooling
+(including WIT itself) is unable to represent a component importing two
+instances of the same interface. A <code>client.send</code> import may be linked
+directly to a <code>handler.handle</code> export to bypass the network.</p>
 </section>
 <section>
 </section>
@@ -45,30 +52,26 @@ el.replaceWith(d);
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="spin_sdk.mysql.open"><code class="name flex">
-<span>async def <span class="ident">open</span></span>(<span>connection_string: str) ‑> <a title="spin_sdk.wit.imports.spin_mysql_mysql_3_0_0.Connection" href="wit/imports/spin_mysql_mysql_3_0_0.html#spin_sdk.wit.imports.spin_mysql_mysql_3_0_0.Connection">Connection</a></span>
+<dt id="spin_sdk.wit.imports.wasi_http_client_0_3_0.send"><code class="name flex">
+<span>async def <span class="ident">send</span></span>(<span>request: <a title="spin_sdk.wit.imports.wasi_http_types_0_3_0.Request" href="wasi_http_types_0_3_0.html#spin_sdk.wit.imports.wasi_http_types_0_3_0.Request">Request</a>) ‑> <a title="spin_sdk.wit.imports.wasi_http_types_0_3_0.Response" href="wasi_http_types_0_3_0.html#spin_sdk.wit.imports.wasi_http_types_0_3_0.Response">Response</a></span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">async def open(connection_string: str) -&gt; Connection:
+<pre><code class="python">async def send(request: wasi_http_types_0_3_0.Request) -&gt; wasi_http_types_0_3_0.Response:
     &#34;&#34;&#34;
-    Open a connection with a MySQL database.
+    This function may be used to either send an outgoing request over the
+    network or to forward it to another component.
     
-    The connection_string is the MySQL URL connection string.
-
-    A `componentize_py_types.Err(Error_ConnectionFailed(str))` when a connection fails.
-    
-    A `componentize_py_types.Err(Error_Other(str))` when some other error occurs.
+    Raises: `componentize_py_types.Err(spin_sdk.wit.imports.wasi_http_types_0_3_0.ErrorCode)`
     &#34;&#34;&#34;
-    return await Connection.open(connection_string)</code></pre>
+    raise NotImplementedError</code></pre>
 </details>
-<div class="desc"><p>Open a connection with a MySQL database.</p>
-<p>The connection_string is the MySQL URL connection string.</p>
-<p>A <code>componentize_py_types.Err(Error_ConnectionFailed(str))</code> when a connection fails.</p>
-<p>A <code>componentize_py_types.Err(Error_Other(str))</code> when some other error occurs.</p></div>
+<div class="desc"><p>This function may be used to either send an outgoing request over the
+network or to forward it to another component.</p>
+<p>Raises: <code>componentize_py_types.Err(<a title="spin_sdk.wit.imports.wasi_http_types_0_3_0.ErrorCode" href="wasi_http_types_0_3_0.html#spin_sdk.wit.imports.wasi_http_types_0_3_0.ErrorCode">ErrorCode</a>)</code></p></div>
 </dd>
 </dl>
 </section>
@@ -82,12 +85,12 @@ el.replaceWith(d);
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="spin_sdk" href="index.html">spin_sdk</a></code></li>
+<li><code><a title="spin_sdk.wit.imports" href="index.html">spin_sdk.wit.imports</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="spin_sdk.mysql.open" href="#spin_sdk.mysql.open">open</a></code></li>
+<li><code><a title="spin_sdk.wit.imports.wasi_http_client_0_3_0.send" href="#spin_sdk.wit.imports.wasi_http_client_0_3_0.send">send</a></code></li>
 </ul>
 </li>
 </ul>
