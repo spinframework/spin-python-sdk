@@ -15,8 +15,8 @@ from componentize_py_async_support.streams import ByteStreamWriter
 from componentize_py_async_support.futures import FutureReader
 from spin_sdk import wit
 from spin_sdk.wit import exports
-from spin_sdk.wit.imports import wasi_http_client_0_3_0_rc_2026_03_15 as client
-from spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15 import (
+from spin_sdk.wit.imports import wasi_http_client_0_3_0 as client
+from spin_sdk.wit.imports.wasi_http_types_0_3_0 import (
     Method_Get,
     Method_Post,
     Scheme,
@@ -127,8 +127,8 @@ async def sha256(url: str) -> tuple[str, str]:
 
 
 def trailers_future() -> FutureReader[Result[Optional[Fields], ErrorCode]]:
-    return wit.result_option_wasi_http_types_0_3_0_rc_2026_03_15_fields_wasi_http_types_0_3_0_rc_2026_03_15_error_code_future(lambda: Ok(None))[1]
+    return wit.result_option_wasi_http_types_0_3_0_fields_wasi_http_types_0_3_0_error_code_future(lambda: Ok(None))[1]
 
 
 def unit_future() -> FutureReader[Result[None, ErrorCode]]:
-    return wit.result_unit_wasi_http_types_0_3_0_rc_2026_03_15_error_code_future(lambda: Ok(None))[1]
+    return wit.result_unit_wasi_http_types_0_3_0_error_code_future(lambda: Ok(None))[1]

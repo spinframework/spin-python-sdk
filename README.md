@@ -24,7 +24,7 @@ enter a virtual environment and then install the desired packages
 ```shell
 python -m venv .venv
 source .venv/bin/activate
-pip install componentize-py==0.23.0 spin-sdk==4.0.0 mypy==1.8.0
+pip install componentize-py==0.25.1 spin-sdk==5.0.0 mypy==1.8.0
 ```
 
 ### Hello, World
@@ -48,7 +48,7 @@ component = "hello"
 [component.hello]
 source = "app.wasm"
 [component.hello.build]
-command = "componentize-py -w spin:up/http-trigger@4.0.0 componentize app -o app.wasm"
+command = "componentize-py -w spin:up/http-trigger@4.1.0 componentize app -o app.wasm"
 EOF
 ```
 

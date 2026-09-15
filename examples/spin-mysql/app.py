@@ -3,8 +3,8 @@ from spin_sdk.http import Request, Response
 
 class HttpHandler(http.Handler):
     async def handle_request(self, request: Request) -> Response:
-        with mysql.open("mysql://root:@127.0.0.1/spin_dev") as db:
-            print(db.query("select * from test", []))
+        with await mysql.open("mysql://root:@127.0.0.1/spin_dev") as db:
+            print(await db.query("select * from test", []))
         
         return Response(
             200,

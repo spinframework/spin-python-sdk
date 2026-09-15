@@ -6,8 +6,8 @@ from componentize_py_types import Ok, Result
 from componentize_py_async_support.streams import ByteStreamWriter
 from componentize_py_async_support.futures import FutureReader
 from spin_sdk import wit
-from spin_sdk.wit.imports import wasi_http_client_0_3_0_rc_2026_03_15 as client
-from spin_sdk.wit.imports.wasi_http_types_0_3_0_rc_2026_03_15 import (
+from spin_sdk.wit.imports import wasi_http_client_0_3_0 as client
+from spin_sdk.wit.imports.wasi_http_types_0_3_0 import (
     Method, Method_Get, Method_Head, Method_Post, Method_Put, Method_Delete, Method_Connect,
     Method_Options, Method_Trace, Method_Patch, Method_Other,
     Fields, Scheme, Scheme_Http, Scheme_Https, Scheme_Other,  ErrorCode, Request as WasiRequest, Response as WasiResponse
@@ -111,7 +111,7 @@ try:
             return response
 
 except ImportError:
-    # `spin_sdk.wit.exports` won't exist if the use is targeting `spin-imports`,
+    # `spin_sdk.wit.exports` won't exist if the user is targeting `spin-imports`,
     # so just skip this part
     pass
 
@@ -234,7 +234,7 @@ async def _copy(bytes: bytes | None, tx: ByteStreamWriter) -> None:
             await tx.write_all(bytes)
 
 def _trailers_future() -> FutureReader[Result[Optional[Fields], ErrorCode]]:
-    return wit.result_option_wasi_http_types_0_3_0_rc_2026_03_15_fields_wasi_http_types_0_3_0_rc_2026_03_15_error_code_future(lambda: Ok(None))[1]
+    return wit.result_option_wasi_http_types_0_3_0_fields_wasi_http_types_0_3_0_error_code_future(lambda: Ok(None))[1]
 
 def _unit_future() -> FutureReader[Result[None, ErrorCode]]:
-    return wit.result_unit_wasi_http_types_0_3_0_rc_2026_03_15_error_code_future(lambda: Ok(None))[1]
+    return wit.result_unit_wasi_http_types_0_3_0_error_code_future(lambda: Ok(None))[1]

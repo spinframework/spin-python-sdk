@@ -16,14 +16,13 @@ jobs:
       - name: Install Spin
         uses: fermyon/actions/spin/setup@v1
         with:
-          # TODO: Switch to Spin 4.0 when it's available
-           version: "canary"
+           version: "v4.1.0"
 
       - name: Build examples and run tests
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install componentize-py==0.23.0 http-router==4.1.2 build==1.4.2 mypy==1.13
+          pip install componentize-py==0.25.1 http-router==4.1.2 build==1.4.2 mypy==1.13
           python -m build
           VERSION=$(yq '.project.version' pyproject.toml)
           pip install dist/spin_sdk-${VERSION//-}-py3-none-any.whl
